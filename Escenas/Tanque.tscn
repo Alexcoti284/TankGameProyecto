@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Sprites/tanks-purple.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/cannon-purple.png" type="Texture" id=2]
+[ext_resource path="res://Scripts/Tanque.gd" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 7, 5 )
+
+[node name="Tanque" type="KinematicBody2D" groups=["Destruible"]]
+script = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Cuerpo" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+hframes = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="ColisionDiagonal" type="CollisionPolygon2D" parent="."]
+scale = Vector2( -1, 1 )
+polygon = PoolVector2Array( -6.87, 0.684, -7.413, -1.593, -1.99, -7.016, 1.155, -6.907, 7.011, -1.159, 7.228, 1.552, 2.022, 6.866, -0.906, 7.191 )
+
+[node name="Cañon" type="Area2D" parent="."]
+
+[node name="SpriteCañon" type="Sprite" parent="Cañon"]
+position = Vector2( 0, -2 )
+z_index = 1
+texture = ExtResource( 2 )
