@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "KinematicBody2D",
 "class": "Bullet",
 "language": "GDScript",
-"path": "res://Bala.gd"
+"path": "res://Scripts/Bala.gd"
 } ]
 _global_script_class_icons={
 "Bullet": ""
@@ -26,6 +26,11 @@ config/icon="res://icon.png"
 [audio]
 
 default_bus_layout="res://Sprites/default_bus_layout.tres"
+
+[autoload]
+
+AudioManager="*res://Escenas/AudioManager.tscn"
+Debug="*res://Scripts/Debug.gd"
 
 [display]
 
