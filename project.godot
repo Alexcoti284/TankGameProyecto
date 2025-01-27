@@ -31,6 +31,8 @@ default_bus_layout="res://Sprites/default_bus_layout.tres"
 
 AudioManager="*res://Escenas/AudioManager.tscn"
 Debug="*res://Scripts/Debug.gd"
+Utils="*res://Scripts/Utils.gd"
+Global="*res://Scripts/Global.gd"
 
 [display]
 

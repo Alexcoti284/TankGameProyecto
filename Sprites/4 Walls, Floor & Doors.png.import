@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/dawnblocker_ortho.png-1d72a75b544ac1160fef7c572ac2efec.stex"
+path="res://.import/4 Walls, Floor & Doors.png-008e2a92d5c6c62c73bc480c0bccac87.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/dawnblocker_ortho.png"
-dest_files=[ "res://.import/dawnblocker_ortho.png-1d72a75b544ac1160fef7c572ac2efec.stex" ]
+source_file="res://Sprites/4 Walls, Floor & Doors.png"
+dest_files=[ "res://.import/4 Walls, Floor & Doors.png-008e2a92d5c6c62c73bc480c0bccac87.stex" ]
 
 [params]
 

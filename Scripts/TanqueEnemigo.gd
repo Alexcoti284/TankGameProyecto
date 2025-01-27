@@ -1,6 +1,7 @@
-extends "res://scripts/Tank.gd"
+extends "res://Scripts/Tanque.gd"
 
-var RayCastUtils = preload("res://scripts/RayCastUtils.gd")
+
+var RayCastUtils = preload("res://Scripts/DetectarEnemigos.gd")
 
 var rotationDirection = 1
 var cannonRotSpeed = 1.5
@@ -55,6 +56,7 @@ func _on_TimepoDisparo_timeout():
 		okToShoot = true
 	$ShootingTimer.wait_time = fireRate
 	
+	
 func _draw():
 	if Debug.SHOW_BULLET_RAYCASTS:
 		for i in BULLET_RAYCAST_LIST:
@@ -69,3 +71,6 @@ func destroy():
 	remove_from_group("enemy")
 	emit_signal("killed")
 	.destroy()
+
+
+

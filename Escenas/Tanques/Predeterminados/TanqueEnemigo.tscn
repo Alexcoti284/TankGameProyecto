@@ -5,7 +5,9 @@
 
 [node name="Tanque" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+bulletsPerSecond = 0.5
 
 [node name="TimepoDisparo" type="Timer" parent="." index="5"]
+autostart = true
 
 [connection signal="timeout" from="TimepoDisparo" to="." method="_on_TimepoDisparo_timeout"]

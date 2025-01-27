@@ -12,8 +12,8 @@ export var maxMines = 0
 var liveBullets = []
 var liveMines = []
 
-const Mine = preload("res://scenes/Mine.tscn")
-export var Bullet = preload("res://scenes/Bullet.tscn")
+const Mine = preload("res://Escenas/Mina.tscn")
+export var Bullet = preload("res://Escenas/Bala.tscn")
 var bulletInstance = Bullet.instance() # A bullet instance to acces some of ithe Bullet class properties
 # TODO CHANGE FOR GAST BULLET ON GREENT TANK AND OTHERS
 var directions = {
@@ -65,23 +65,23 @@ func move(delta, direction):
 
 func updateRotationAnimation():
 	if (tankRotation <= -(directions.LEFT.angle()) + PI/8):
-		$AnimationPlayer.current_animation = "horizontal"
+		$AnimationPlayer.current_animation = "Horizontal"
 	elif (tankRotation <= directions.UP_LEFT.angle() + PI/8) :
-		$AnimationPlayer.current_animation = "diagonal_down"
+		$AnimationPlayer.current_animation = "DiagonalAbajo"
 	elif (tankRotation <= directions.UP.angle() + PI/8):
-		$AnimationPlayer.current_animation = "vertical"
+		$AnimationPlayer.current_animation = "Vertical"
 	elif (tankRotation <= directions.UP_RIGHT.angle() + PI/8):
-		$AnimationPlayer.current_animation = "diagonal_up"
+		$AnimationPlayer.current_animation = "DiagonalArriba"
 	elif (tankRotation <= directions.RIGHT.angle() + PI/8):
-		$AnimationPlayer.current_animation = "horizontal"
+		$AnimationPlayer.current_animation = "Horizontal"
 	elif (tankRotation <= directions.DOWN_RIGHT.angle() + PI/8):
-		$AnimationPlayer.current_animation = "diagonal_down"
+		$AnimationPlayer.current_animation = "DiagonalAbajo"
 	elif (tankRotation <= directions.DOWN.angle() + PI/8):
-		$AnimationPlayer.current_animation = "vertical"
+		$AnimationPlayer.current_animation = "Vertical"
 	elif (tankRotation <= directions.DOWN_LEFT.angle() + PI/8):
-		$AnimationPlayer.current_animation = "diagonal_up"
+		$AnimationPlayer.current_animation = "DiagonalArriba"
 	elif (tankRotation <= directions.LEFT.angle() + PI/8):
-		$AnimationPlayer.current_animation = "horizontal"
+		$AnimationPlayer.current_animation = "Horizontal"
 
 func rotateCannon(angle):
 	$Cannon.rotation = angle
