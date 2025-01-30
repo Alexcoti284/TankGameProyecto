@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/4 Walls, Floor & Doors.png-008e2a92d5c6c62c73bc480c0bccac87.stex"
+path="res://.import/Alfombra.png-45cca01beecb1fc47a63d5d87ac9f4e7.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/4 Walls, Floor & Doors.png"
-dest_files=[ "res://.import/4 Walls, Floor & Doors.png-008e2a92d5c6c62c73bc480c0bccac87.stex" ]
+source_file="res://Sprites/Alfombra.png"
+dest_files=[ "res://.import/Alfombra.png-45cca01beecb1fc47a63d5d87ac9f4e7.stex" ]
 
 [params]
 

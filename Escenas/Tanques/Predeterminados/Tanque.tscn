@@ -280,7 +280,12 @@ tracks/3/keys = {
 extents = Vector2( 4.947, 1.044 )
 
 [node name="Tanque" type="KinematicBody2D" groups=["Destruible"]]
+pause_mode = 2
+collision_layer = 2
+collision_mask = 23
 script = ExtResource( 1 )
+maxBullets = 5
+maxMines = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = ExtResource( 3 )
