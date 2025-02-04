@@ -19,10 +19,11 @@ func destroy():
 	call_deferred("createBlast")
 	queue_free()
 
-func _on_ExpireTimer_timeout():
-	$BlastTimer.start()
-	$Tick_Sound.play()
+func _on_TiempoExpiracion_timeout():
+	$TiempoExplosion.start()
+	$Sonido_Tick.play()
 	$AnimationPlayer.play("tick")
 
-func _on_BlastTimer_timeout():
+
+func _on_TiempoExplosion_timeout():
 	destroy()

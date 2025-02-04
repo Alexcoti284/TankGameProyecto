@@ -9,13 +9,14 @@ var tankRotation = 0.0
 export var maxBullets = 1
 export var maxMines = 0
 
-var liveBullets = []
-var liveMines = []
+var BalasVivas = []
+var MinasVivas = []
 
 const Mine = preload("res://Escenas/Mina.tscn")
-export var Bullet = preload("res://Escenas/Bala.tscn")
-var bulletInstance = Bullet.instance() # A bullet instance to acces some of ithe Bullet class properties
+export var Bala = preload("res://Escenas/Bala.tscn")
+var bulletInstance = Bala.instance() # A bullet instance to acces some of ithe Bullet class properties
 # TODO CHANGE FOR GAST BULLET ON GREENT TANK AND OTHERS
+
 var directions = {
 	"UP": Vector2(0,-1),
 	"UP_RIGHT": Vector2(1,-1),
@@ -29,7 +30,7 @@ var directions = {
 
 func isRotationWithinDeltaForDirection(direction, rotDelta):
 	return (tankRotation > direction - rotDelta) && (tankRotation < direction + rotDelta)
-	 
+
 func move(delta, direction):
 	var rotation_dir = 0
 	var rotDelta = rotation_speed * delta
@@ -64,51 +65,47 @@ func move(delta, direction):
 
 
 func updateRotationAnimation():
-	if (tankRotation <= -(directions.LEFT.angle()) + PI/8):
+	if (tankRotation <= -(directions.LEFT.angle()) + PI/8 || tankRotation >= directions.RIGHT.angle() - PI/8):
 		$AnimationPlayer.current_animation = "Horizontal"
-	elif (tankRotation <= directions.UP_LEFT.angle() + PI/8) :
+	elif (tankRotation <= directions.UP_LEFT.angle() + PI/8):
 		$AnimationPlayer.current_animation = "DiagonalAbajo"
 	elif (tankRotation <= directions.UP.angle() + PI/8):
 		$AnimationPlayer.current_animation = "Vertical"
 	elif (tankRotation <= directions.UP_RIGHT.angle() + PI/8):
 		$AnimationPlayer.current_animation = "DiagonalArriba"
-	elif (tankRotation <= directions.RIGHT.angle() + PI/8):
-		$AnimationPlayer.current_animation = "Horizontal"
 	elif (tankRotation <= directions.DOWN_RIGHT.angle() + PI/8):
 		$AnimationPlayer.current_animation = "DiagonalAbajo"
 	elif (tankRotation <= directions.DOWN.angle() + PI/8):
 		$AnimationPlayer.current_animation = "Vertical"
 	elif (tankRotation <= directions.DOWN_LEFT.angle() + PI/8):
 		$AnimationPlayer.current_animation = "DiagonalArriba"
-	elif (tankRotation <= directions.LEFT.angle() + PI/8):
-		$AnimationPlayer.current_animation = "Horizontal"
 
 func rotateCannon(angle):
-	$Cannon.rotation = angle
+	$"Cañon".rotation = angle
 
 func shoot():
-	var bullet = Bullet.instance()
-	bullet.setup(getCannonTipPosition(), Vector2(1,0).rotated($Cannon.rotation))
-	get_parent().add_child(bullet)
-	liveBullets.append(bullet)
+	var BalaD = Bala.instance()
+	BalaD.setup(getCannonTipPosition(), Vector2(1,0).rotated($"Cañon".rotation))
+	get_parent().add_child(BalaD)
+	BalasVivas.append(BalaD)
 
 func tryToShoot():
-	if ($Cannon.get_overlapping_bodies().empty()): # Validate cannon isn't within a wall
-		if (Utils.getNumberOfActiveObjects(liveBullets) < maxBullets):
+	if ($"Cañon".get_overlapping_bodies().empty()): 
+		if (Utils.getNumberOfActiveObjects(BalasVivas) < maxBullets):
 			shoot()
-	
+
 func tryToPlantMine():
-	if (Utils.getNumberOfActiveObjects(liveMines) < maxMines):
+	if (Utils.getNumberOfActiveObjects(MinasVivas) < maxMines):
 		plantMine()
 
 func plantMine():
 	var mine = Mine.instance()
 	mine.position = position
 	get_parent().add_child(mine)
-	liveMines.append(mine)
+	MinasVivas.append(mine)
 
 func getCannonTipPosition():
-	return position + $Cannon.position + Vector2(15,0).rotated($Cannon.rotation)
+	return position + $"Cañon".position + Vector2(15,0).rotated($"Cañon".rotation)
 
 func destroy():
 	AudioManager.play(AudioManager.SOUNDS.TANK_DEATH)

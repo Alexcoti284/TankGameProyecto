@@ -15,17 +15,17 @@ func _ready():
 	if Debug.SHOW_MOVEMENT_RAYCASTS: MOVEMENT_RAYCAST_LIST = []
 
 	direction = directions.values()[(rng.randi_range(0, directions.size() - 1))]
-	$ChangeDirTimer.wait_time = rng.randf_range(changeDirTimes[0], changeDirTimes[1])
+	$TiempoCanviarDireccion.wait_time = rng.randf_range(changeDirTimes[0], changeDirTimes[1])
 	cannonRotSpeed = 0.4
 
 	if (maxMines > 0):
-		$MineTimer.wait_time = rng.randf_range(mineTimes[0], mineTimes[1])
-		$MineTimer.start()
+		$TiempoMina.wait_time = rng.randf_range(mineTimes[0], mineTimes[1])
+		$TiempoMina.start()
 
 func _physics_process(delta):
 	if Debug.SHOW_MOVEMENT_RAYCASTS: MOVEMENT_RAYCAST_LIST.clear()
 	var selfToP1Vector = Global.p1Position - position
-	var angleToPlayer = Vector2(1,0).rotated($Cannon.rotation).angle_to(selfToP1Vector)
+	var angleToPlayer = Vector2(1,0).rotated($"Cañon".rotation).angle_to(selfToP1Vector)
 	if (angleToPlayer > 0):
 		rotationDirection = 1
 	else:
@@ -83,4 +83,4 @@ func _on_TiempoComprovarColision_timeout():
 
 func _on_TiempoMina_timeout():
 	tryToPlantMine()
-	$MineTimer.wait_time = rng.randf_range(mineTimes[0], mineTimes[1])
+	$TiempoMina.wait_time = rng.randf_range(mineTimes[0], mineTimes[1])

@@ -48,30 +48,30 @@ func play(sound):
 func startBGMusic(track):
 	match(track):
 		TRACKS.INTRO:
-			$BGMusic.stream = preload("res://SFX/intro.wav")
-			$BGMusic.volume_db = -5
-			$BGMusic.play()
+			$MusicaFondo.stream = preload("res://SFX/intro.wav")
+			$MusicaFondo.volume_db = -5
+			$MusicaFondo.play()
 			introPlaying = true
 		TRACKS.MAIN:
-			$BGMusic.stream = preload("res://SFX/main.wav")
-			$BGMusic.volume_db = -5
-			$BGMusic.play()
+			$MusicaFondo.stream = preload("res://SFX/main.wav")
+			$MusicaFondo.volume_db = -5
+			$MusicaFondo.play()
 		TRACKS.WIN:
-			if ($BGMusic.stream != preload("res://SFX/lose.wav")): # We don't want this to play when we already lost and the lose sfx is playing
-				$BGMusic.stream = preload("res://SFX/win.wav")
-				$BGMusic.volume_db = -5
-				$BGMusic.play()
+			if ($MusicaFondo.stream != preload("res://SFX/lose.wav")): # We don't want this to play when we already lost and the lose sfx is playing
+				$MusicaFondo.stream = preload("res://SFX/win.wav")
+				$MusicaFondo.volume_db = -5
+				$MusicaFondo.play()
 				outroPlaying = true
 		TRACKS.LOSE:
-			if ($BGMusic.stream != preload("res://SFX/win.wav")): # We don't want this to play when we already won and the win sfx is playing
-				$BGMusic.stream = preload("res://SFX/lose.wav")
-				$BGMusic.volume_db = -5
-				$BGMusic.play()
+			if ($MusicaFondo.stream != preload("res://SFX/win.wav")): # We don't want this to play when we already won and the win sfx is playing
+				$MusicaFondo.stream = preload("res://SFX/lose.wav")
+				$MusicaFondo.volume_db = -5
+				$MusicaFondo.play()
 				outroPlaying = true
 		TRACKS.REPLAY:
-			$BGMusic.stream = preload("res://SFX/replay.wav")
-			$BGMusic.volume_db = -5
-			$BGMusic.play()
+			$MusicaFondo.stream = preload("res://SFX/replay.wav")
+			$MusicaFondo.volume_db = -5
+			$MusicaFondo.play()
 			introPlaying = true
 
 func _process(_delta):

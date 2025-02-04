@@ -2,14 +2,14 @@ extends KinematicBody2D
 
 var Explosion = preload("res://Escenas/Efectos/Explosion.tscn")
 var Ricochet = preload("res://Escenas/Efectos/Rebote.tscn")
-var Smoke = preload("res://Escenas/Efectos/Humo.tscn")
+var Humo = preload("res://Escenas/Efectos/Humo.tscn")
 
-export var speed = 150.0
-export var maxRebounds = 1
-var currentRebounds
+export var velocidad = 150.0
+export var RebotesMax = 1
+var RebotesActu
 var velocity = Vector2()
 
-class_name Bullet
+class_name Bala
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -18,7 +18,7 @@ func _ready():
 func setup(initialPosition: Vector2, initialVelocity: Vector2):
 	position = initialPosition
 	self.velocity = initialVelocity.normalized()
-	currentRebounds = 0
+	RebotesActu = 0
 	self.rotation = initialVelocity.angle()
 
 func destroy():
@@ -26,22 +26,22 @@ func destroy():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	var collision = move_and_collide(velocity*delta*speed)
+	var collision = move_and_collide(velocity*delta*velocidad)
 	if (collision):
-		if (collision.collider.get_groups().has("destroyable")):
-			if (!collision.collider.get_groups().has("no_explosion")):
+		if (collision.collider.get_groups().has("Destruible")):
+			if (!collision.collider.get_groups().has("No_Explotable")):
 				createExplosion(collision.collider.position)
 			collision.collider.destroy()
 			AudioManager.play(AudioManager.SOUNDS.BULLET_SHOT)
 			self.destroy()
 		else: # Collision with walls
-			if (currentRebounds >= maxRebounds):
+			if (RebotesActu >= RebotesMax):
 				instanceSmoke(true)
 				queue_free()
 			else: 
 				velocity = velocity.bounce(collision.normal)
 				self.rotation = velocity.angle()
-				currentRebounds += 1;
+				RebotesActu += 1;
 				
 				# Ricochet
 				var ricochet = Ricochet.instance()
@@ -62,7 +62,7 @@ func getCollisionShape() -> Shape:
 	return $CollisionShape2D.shape
 
 func instanceSmoke(sound):
-	var smoke = Smoke.instance()
-	smoke.position = position
-	smoke.withSound = sound
-	get_parent().add_child(smoke)
+	var humo = Humo.instance()
+	humo.position = position
+	humo.withSound = sound
+	get_parent().add_child(humo)

@@ -13,7 +13,7 @@ var okToShoot = false
 var BULLET_RAYCAST_LIST: Array
 var DEBUG_BOUNCE_SPOT: Vector2
 
-signal killed
+signal Muerto
 
 func _ready():
 	if Debug.SHOW_BULLET_RAYCASTS:
@@ -22,31 +22,31 @@ func _ready():
 
 	fireRate = rng.randf_range((1/bulletsPerSecond)-(1/bulletsPerSecond)/5, (1/bulletsPerSecond)-(1/bulletsPerSecond)/5)
 	rng.randomize()
-	$ShootingTimer.wait_time = fireRate
+	$TimepoDisparo.wait_time = fireRate
 
 	# Point cannon towards player, but add a +-PI/4 offset so that we arent pointing dead-on towards him but rather close to him instead
 	var orientation = [-1,1]
 	var vecToPlayer = position.direction_to((Global.p1Position))
 	rotationDirection = orientation[rng.randi_range(0,1)]
-	$Cannon.rotation = vecToPlayer.rotated(rotationDirection*PI/4).angle()
+	$"Cañon".rotation = vecToPlayer.rotated(rotationDirection*PI/4).angle()
 
 func _physics_process(delta):
-	$Cannon.rotation += delta * rotationDirection * cannonRotSpeed
+	$"Cañon".rotation += delta * rotationDirection * cannonRotSpeed
 	if(okToShoot):
 		if Debug.SHOW_BULLET_RAYCASTS: BULLET_RAYCAST_LIST.clear()
-		var raycastResult = castBullet(getCannonTipPosition(), Vector2(1,0).rotated($Cannon.rotation))
+		var raycastResult = castBullet(getCannonTipPosition(), Vector2(1,0).rotated($"Cañon".rotation))
 		# A non normalized result indicates the collision happened inside the collider, so we ignore it
 		if (raycastResult && raycastResult.normal.is_normalized()):
 			if Debug.SHOW_BULLET_RAYCASTS: DEBUG_BOUNCE_SPOT = raycastResult.position
-			if(raycastResult.collider.is_in_group('player')):
+			if(raycastResult.collider.is_in_group('Jugador')):
 				tryToShoot()
 				okToShoot = false
-			elif(raycastResult.collider.is_in_group('walls') && bulletInstance.maxRebounds == 1):
-				var dirVector = Vector2(1,0).rotated($Cannon.rotation)
+			elif(raycastResult.collider.is_in_group('Pared') && bulletInstance.maxRebounds == 1):
+				var dirVector = Vector2(1,0).rotated($"Cañon".rotation)
 				# newOrigin will substract bullets size to better allign with bounce
 				var newOrigin = raycastResult.position - dirVector.normalized()*bulletInstance.getCollisionShapeExtents().x
 				var secondRaycastResult = castBullet(newOrigin, dirVector.bounce(raycastResult.normal))
-				if(secondRaycastResult && secondRaycastResult.collider.is_in_group('player')):
+				if(secondRaycastResult && secondRaycastResult.collider.is_in_group('Jugador')):
 					tryToShoot()
 					okToShoot = false
 	if Debug.SHOW_BULLET_RAYCASTS: update()
@@ -54,7 +54,7 @@ func _physics_process(delta):
 func _on_TimepoDisparo_timeout():
 	if (!okToShoot):
 		okToShoot = true
-	$ShootingTimer.wait_time = fireRate
+	$TimepoDisparo.wait_time = fireRate
 	
 	
 func _draw():
@@ -68,8 +68,8 @@ func castBullet(origin: Vector2, bulletDir):
 	return RayCastUtils.castShape(origin, bulletInstance.getCollisionShape(), bulletDir, get_world_2d().direct_space_state, 1000, BULLET_RAYCAST_LIST, [], blastMask)
 
 func destroy():
-	remove_from_group("enemy")
-	emit_signal("killed")
+	remove_from_group("Enemigo")
+	emit_signal("Muerto")
 	.destroy()
 
 
