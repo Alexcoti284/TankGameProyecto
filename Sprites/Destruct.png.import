@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/straw.png-7de36ab45b56c21150995a42810d8ba4.stex"
+path="res://.import/Destruct.png-ac066a42ffc02bea8b00d6627f97a869.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/straw.png"
-dest_files=[ "res://.import/straw.png-7de36ab45b56c21150995a42810d8ba4.stex" ]
+source_file="res://Sprites/Destruct.png"
+dest_files=[ "res://.import/Destruct.png-ac066a42ffc02bea8b00d6627f97a869.stex" ]
 
 [params]
 

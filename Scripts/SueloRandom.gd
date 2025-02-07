@@ -1,3 +1,4 @@
+"""
 extends TileMap
 
 func _ready():
@@ -5,7 +6,7 @@ func _ready():
 	var map_width = 29  # Ancho del mapa en tiles
 	var map_height = 16  # Alto del mapa en tiles
 	var tile_ids = [0, 1, 2]  # IDs de los tiles que quieres usar
-	var min_cluster_size = 14  # Tamaño mínimo de un cluster
+	var min_cluster_size = 15  # Tamaño mínimo de un cluster
 
 	# Crear un mapa vacío para rastrear las celdas ya procesadas
 	var processed_cells = []
@@ -62,3 +63,26 @@ func _generate_cluster(start_pos, cluster_size, map_width, map_height):
 		to_process += neighbors
 
 	return cluster
+
+
+# Codigo alternativo para hacer el mapa entero de 1 color
+"""
+extends TileMap
+
+func _ready():
+	randomize()  # Inicializa el generador de números aleatorios
+	var map_width = 29  # Ancho del mapa en tiles
+	var map_height = 16  # Alto del mapa en tiles
+	var tile_ids = [0, 1, 2]  # IDs de los tiles que quieres usar
+
+	# Seleccionar un ID de tile aleatorio para todo el mapa
+	var selected_tile = tile_ids[randi() % tile_ids.size()]
+
+	# Llenar todo el grid con el mismo tile
+	for x in range(1, map_width):
+		for y in range(1, map_height):
+			set_cell(x, y, selected_tile)
+
+	# Actualizar las máscaras de bits automáticamente
+	update_bitmask_region()
+

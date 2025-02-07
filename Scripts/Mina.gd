@@ -1,6 +1,6 @@
 extends Node2D
 
-var Blast = preload("res://Escenas/Efectos/Explosion.tscn")
+var Explosion = preload("res://Escenas/Efectos/Explosion.tscn")
 
 var exploding = false
 
@@ -10,13 +10,13 @@ func _ready():
 func setup(position: Vector2):
 	self.position = position
 
-func createBlast():
-	var blast = Blast.instance()
-	blast.position = position
-	get_parent().add_child(blast)
+func crearExplosion():
+	var explosion = Explosion.instance()
+	explosion.position = position
+	get_parent().add_child(explosion)
 
 func destroy():
-	call_deferred("createBlast")
+	call_deferred("crearExplosion")
 	queue_free()
 
 func _on_TiempoExpiracion_timeout():

@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-var Explosion = preload("res://Escenas/Efectos/Explosion.tscn")
+var Explosion = preload("res://Escenas/Efectos/IniExplosion.tscn")
 var Ricochet = preload("res://Escenas/Efectos/Rebote.tscn")
 var Humo = preload("res://Escenas/Efectos/Humo.tscn")
 
@@ -29,7 +29,7 @@ func _physics_process(delta):
 	var collision = move_and_collide(velocity*delta*velocidad)
 	if (collision):
 		if (collision.collider.get_groups().has("Destruible")):
-			if (!collision.collider.get_groups().has("No_Explotable")):
+			if (!collision.collider.get_groups().has("Puede_Explotar")):
 				createExplosion(collision.collider.position)
 			collision.collider.destroy()
 			AudioManager.play(AudioManager.SOUNDS.BULLET_SHOT)
@@ -64,5 +64,5 @@ func getCollisionShape() -> Shape:
 func instanceSmoke(sound):
 	var humo = Humo.instance()
 	humo.position = position
-	humo.withSound = sound
+	humo.conSonido = sound
 	get_parent().add_child(humo)

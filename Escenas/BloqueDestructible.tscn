@@ -1,6 +1,6 @@
 [gd_scene load_steps=27 format=2]
 
-[ext_resource path="res://Sprites/straw.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Destruct.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/BloqueDestructible.gd" type="Script" id=2]
 
 [sub_resource type="Animation" id=18]
@@ -279,7 +279,7 @@ animations = [ {
 "frames": [ SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ) ],
 "loop": true,
 "name": "Bloque_H",
-"speed": 5.0
+"speed": 4.99
 }, {
 "frames": [ SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ) ],
 "loop": true,
@@ -301,7 +301,7 @@ animations = [ {
 extents = Vector2( 8, 8 )
 
 [sub_resource type="RectangleShape2D" id=17]
-extents = Vector2( 8.032, 1.945 )
+extents = Vector2( 8.032, 2.5 )
 
 [node name="BloqueDestructible" type="StaticBody2D" groups=["Pared", "Puede_Explotar"]]
 script = ExtResource( 2 )
@@ -323,7 +323,7 @@ shape = SubResource( 16 )
 disabled = true
 
 [node name="ColisionH" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 0.955 )
+position = Vector2( 0, -0.5 )
 shape = SubResource( 17 )
 disabled = true
 

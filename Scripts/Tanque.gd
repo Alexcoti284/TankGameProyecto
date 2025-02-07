@@ -1,21 +1,23 @@
 extends KinematicBody2D
 
-export (int) var speed = 40
-export (float) var rotation_speed = 5.0
+export (int) var velocidad = 40
+export (float) var velocidad_rotacion = 5.0
 
 var currentDirection: Vector2
-var tankRotation = 0.0
+var tankRotacion = 0.0
 
-export var maxBullets = 1
+export var maxBalas = 1
 export var maxMines = 0
 
 var BalasVivas = []
 var MinasVivas = []
 
-const Mine = preload("res://Escenas/Mina.tscn")
+const Mina = preload("res://Escenas/Mina.tscn")
 export var Bala = preload("res://Escenas/Bala.tscn")
-var bulletInstance = Bala.instance() # A bullet instance to acces some of ithe Bullet class properties
-# TODO CHANGE FOR GAST BULLET ON GREENT TANK AND OTHERS
+var bulletInstance = Bala.instance() 
+# Incatnciamos la bala para acceder a las propiedades dentro del script de la bala
+
+# CANVIAR PARA TANKES CON BALAS POTENTES I TANKES SIN MOVIMIENTO
 
 var directions = {
 	"UP": Vector2(0,-1),
@@ -29,58 +31,63 @@ var directions = {
 }
 
 func isRotationWithinDeltaForDirection(direction, rotDelta):
-	return (tankRotation > direction - rotDelta) && (tankRotation < direction + rotDelta)
+	return (tankRotacion > direction - rotDelta) && (tankRotacion < direction + rotDelta)
 
-func move(delta, direction):
-	var rotation_dir = 0
-	var rotDelta = rotation_speed * delta
+func mover(delta, direction):
+	var rotacion_dir = 0
+	var rotDelta = velocidad_rotacion * delta
 
-	# Find best direction to rotate towards (direction / -direction)
-	var angleToDirection = abs(Vector2(1,0).rotated(tankRotation).angle_to(direction))
-	var angleToOppositeDirection = abs(Vector2(1,0).rotated(tankRotation).angle_to(-direction))
+	# Encuenntra cual es la direccion que menos tarda en llegar a la direccion deseada (hace menor recorrido), i la nimacion es mas corta (direccion / -direccion)
+	var angleToDirection = abs(Vector2(1,0).rotated(tankRotacion).angle_to(direction))
+	var angleToOppositeDirection = abs(Vector2(1,0).rotated(tankRotacion).angle_to(-direction))
 	var closerDirection = direction
 	if !(min(angleToDirection, angleToOppositeDirection) == angleToDirection):
-		closerDirection = -direction	
+		closerDirection = -direction
 	
-	# Rotate tank towards desired direction if it's not already alligned with it
-	# If it is, move towards that direction
+	# Rota el tanque a la direccion deseada si no esta en ella
+	# Si ya esta en esa direccion se mueve hacia delante
 	if (!isRotationWithinDeltaForDirection(closerDirection.angle(), rotDelta)):
-		if (tankRotation > closerDirection.angle()):
-			rotation_dir = -1
+		if (tankRotacion > closerDirection.angle()):
+			rotacion_dir = -1
 		else:
-			rotation_dir = 1
+			rotacion_dir = 1
 		
-		# Only one tankRotation is counted
-		if (tankRotation > PI):
-			tankRotation = -PI + (tankRotation - PI)
-		if (tankRotation < -PI):
-			tankRotation = PI - (tankRotation + PI)
+		# Solo se cuenta una rotacion del tanque en caso de que haya varias formas de llegar
+		if (tankRotacion > PI):
+			tankRotacion = -PI + (tankRotacion - PI)
+		if (tankRotacion < -PI):
+			tankRotacion = PI - (tankRotacion + PI)
 		
-		tankRotation += rotation_dir * rotDelta
+		tankRotacion += rotacion_dir * rotDelta
 		updateRotationAnimation()
 	else:
 		currentDirection = direction
+		
 		# warning-ignore:return_value_discarded
-		move_and_slide(direction.normalized() * speed)
+		move_and_slide(direction.normalized() * velocidad)
 
 
 func updateRotationAnimation():
-	if (tankRotation <= -(directions.LEFT.angle()) + PI/8 || tankRotation >= directions.RIGHT.angle() - PI/8):
+	if (tankRotacion <= -(directions.LEFT.angle()) + PI/8):
 		$AnimationPlayer.current_animation = "Horizontal"
-	elif (tankRotation <= directions.UP_LEFT.angle() + PI/8):
+	elif (tankRotacion <= directions.UP_LEFT.angle() + PI/8) :
 		$AnimationPlayer.current_animation = "DiagonalAbajo"
-	elif (tankRotation <= directions.UP.angle() + PI/8):
+	elif (tankRotacion <= directions.UP.angle() + PI/8):
 		$AnimationPlayer.current_animation = "Vertical"
-	elif (tankRotation <= directions.UP_RIGHT.angle() + PI/8):
+	elif (tankRotacion <= directions.UP_RIGHT.angle() + PI/8):
 		$AnimationPlayer.current_animation = "DiagonalArriba"
-	elif (tankRotation <= directions.DOWN_RIGHT.angle() + PI/8):
+	elif (tankRotacion <= directions.RIGHT.angle() + PI/8):
+		$AnimationPlayer.current_animation = "Horizontal"
+	elif (tankRotacion <= directions.DOWN_RIGHT.angle() + PI/8):
 		$AnimationPlayer.current_animation = "DiagonalAbajo"
-	elif (tankRotation <= directions.DOWN.angle() + PI/8):
+	elif (tankRotacion <= directions.DOWN.angle() + PI/8):
 		$AnimationPlayer.current_animation = "Vertical"
-	elif (tankRotation <= directions.DOWN_LEFT.angle() + PI/8):
+	elif (tankRotacion <= directions.DOWN_LEFT.angle() + PI/8):
 		$AnimationPlayer.current_animation = "DiagonalArriba"
+	elif (tankRotacion <= directions.LEFT.angle() + PI/8):
+		$AnimationPlayer.current_animation = "Horizontal"
 
-func rotateCannon(angle):
+func rotarCanon(angle):
 	$"Cañon".rotation = angle
 
 func shoot():
@@ -91,18 +98,18 @@ func shoot():
 
 func tryToShoot():
 	if ($"Cañon".get_overlapping_bodies().empty()): 
-		if (Utils.getNumberOfActiveObjects(BalasVivas) < maxBullets):
+		if (Utils.getNumberOfActiveObjects(BalasVivas) < maxBalas):
 			shoot()
 
 func tryToPlantMine():
 	if (Utils.getNumberOfActiveObjects(MinasVivas) < maxMines):
-		plantMine()
+		plantaMina()
 
-func plantMine():
-	var mine = Mine.instance()
-	mine.position = position
-	get_parent().add_child(mine)
-	MinasVivas.append(mine)
+func plantaMina():
+	var mina = Mina.instance()
+	mina.position = position
+	get_parent().add_child(mina)
+	MinasVivas.append(mina)
 
 func getCannonTipPosition():
 	return position + $"Cañon".position + Vector2(15,0).rotated($"Cañon".rotation)
