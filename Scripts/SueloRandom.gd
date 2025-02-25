@@ -1,4 +1,3 @@
-"""
 extends TileMap
 
 func _ready():
@@ -86,3 +85,4 @@ func _ready():
 	# Actualizar las máscaras de bits automáticamente
 	update_bitmask_region()
 
+"""

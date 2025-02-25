@@ -14,8 +14,7 @@ var MinasVivas = []
 
 const Mina = preload("res://Escenas/Mina.tscn")
 export var Bala = preload("res://Escenas/Bala.tscn")
-var bulletInstance = Bala.instance() 
-# Incatnciamos la bala para acceder a las propiedades dentro del script de la bala
+var bulletInstance = Bala.instance() # A bullet instance to acces some of ithe Bullet class properties
 
 # CANVIAR PARA TANKES CON BALAS POTENTES I TANKES SIN MOVIMIENTO
 

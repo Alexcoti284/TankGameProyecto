@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="TankGameProject"
-run/main_scene="res://Escenas/Niveles/Nivel.tscn"
+run/main_scene="res://Escenas/Main.tscn"
 config/icon="res://icon.png"
 
 [audio]
@@ -30,10 +30,10 @@ default_bus_layout="res://Sprites/default_bus_layout.tres"
 
 [autoload]
 
+Global="*res://Scripts/Global.gd"
+Utils="*res://Scripts/Utils.gd"
 AudioManager="*res://Escenas/AudioManager.tscn"
 Debug="*res://Scripts/Debug.gd"
-Utils="*res://Scripts/Utils.gd"
-Global="*res://Scripts/Global.gd"
 
 [display]
 

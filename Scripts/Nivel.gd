@@ -2,17 +2,17 @@ extends TileMap
 const BloqueDestructible = preload("res://Escenas/BloqueDestructible.tscn")
 
 signal Jugador_Muere
-signal enemies_killed
+signal Enemigos_Muertos
 signal level_start
 signal level_end
 
 # Entra directamente la primera vez
 func _ready():
-	var enemies = get_tree().get_nodes_in_group("Enemigo")
-	for e in enemies:
-		e.connect("killed", self, "checkIfAllEnemiesKilled") 
+	var enemigos = get_tree().get_nodes_in_group("Enemigo")
+	for e in enemigos:
+		e.connect("Muerto", self, "checkIfAllEnemiesKilled") 
 	
-	var EnemigosInvis = get_tree().get_nodes_in_group("invisible")
+	var EnemigosInvis = get_tree().get_nodes_in_group("Invisible")
 	for e in EnemigosInvis:
 		# warning-ignore:return_value_discarded
 		self.connect("level_start", e, "fade_in")
@@ -22,30 +22,16 @@ func _ready():
 	emit_signal("level_start")
 
 	# Remplaza los tiles por los tiles del bloque
-	var Destruct_HMid = get_used_cells_by_id(33) # 23 is the index for straw horizontal
+	var Destruct_HMid = get_used_cells_by_id(33) 
 	for Bloque in Destruct_HMid:
 		set_cellv(Bloque,-1)
 		var EscenaBloqueDestructible = BloqueDestructible.instance()
 		EscenaBloqueDestructible.position = Bloque*16 + Vector2(8,8)
 		EscenaBloqueDestructible.vertical = false
 		add_child(EscenaBloqueDestructible)
-	var Destruct_HIzq = get_used_cells_by_id(36) # 24 is the index for straw vertical
-	for Bloque in Destruct_HIzq:
-		set_cellv(Bloque,-1)
-		var EscenaBloqueDestructible = BloqueDestructible.instance()
-		EscenaBloqueDestructible.position = Bloque*16 + Vector2(8,8)
-		EscenaBloqueDestructible.vertical = true
-		add_child(EscenaBloqueDestructible)
+	
 		
-	var Destruct_HDer = get_used_cells_by_id(34) # 24 is the index for straw vertical
-	for Bloque in Destruct_HDer:
-		set_cellv(Bloque,-1)
-		var EscenaBloqueDestructible = BloqueDestructible.instance()
-		EscenaBloqueDestructible.position = Bloque*16 + Vector2(8,8)
-		EscenaBloqueDestructible.vertical = true
-		add_child(EscenaBloqueDestructible)
-		
-	var Destruct_V = get_used_cells_by_id(32) # 24 is the index for straw vertical
+	var Destruct_V = get_used_cells_by_id(32)
 	for Bloque in Destruct_V:
 		set_cellv(Bloque,-1)
 		var EscenaBloqueDestructible = BloqueDestructible.instance()
@@ -53,7 +39,7 @@ func _ready():
 		EscenaBloqueDestructible.vertical = true
 		add_child(EscenaBloqueDestructible)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
 func _physics_process(delta):
 	if (get_node_or_null("TanquePlayer")):
 		var tankDirection
@@ -97,7 +83,7 @@ func checkIfAllEnemiesKilled():
 			nextLevel_timer.autostart = true
 			nextLevel_timer.connect("timeout", self, "_on_nextLevel_timer_timeout") 
 			call_deferred("add_child", nextLevel_timer)
-			AudioManager.startBGMusic(AudioManager.TRACKS.WIN)
+			AudioManager.startMusicaFondo(AudioManager.TRACKS.WIN)
 		else:
 			get_tree().quit()
 	else:
@@ -105,11 +91,11 @@ func checkIfAllEnemiesKilled():
 
 func _on_nextLevel_timer_timeout():
 	if (get_parent().name == "Main"):
-		emit_signal("enemies_killed")
+		emit_signal("Enemigos_Muertos")
 	else:
 		get_tree().quit()
 
-func _on_TanquePlayer_Jugador_Muere():
+func _on_TanquePlayer_player_dies():
 	deleteAllBullets()
 
 	var death_timer = Timer.new()
@@ -118,9 +104,8 @@ func _on_TanquePlayer_Jugador_Muere():
 	death_timer.connect("timeout", self, "_on_death_timer_timeout") 
 	add_child(death_timer)
 	
-	AudioManager.startBGMusic(AudioManager.TRACKS.LOSE)
+	AudioManager.startMusicaFondo(AudioManager.TRACKS.LOSE)
 	emit_signal("level_end")
-
 
 func _on_death_timer_timeout():
 	if (get_parent().name == "Main"):
@@ -133,6 +118,3 @@ func deleteAllBullets():
 		if(node is Bala): 
 			node.instanceSmoke(false)
 			node.queue_free()
-
-
-

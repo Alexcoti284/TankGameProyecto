@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=2]
+[gd_scene load_steps=58 format=2]
 
 [ext_resource path="res://Sprites/Alfombra.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Destruct.png" type="Texture" id=2]
@@ -75,12 +75,6 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 [sub_resource type="ConvexPolygonShape2D" id=11]
 points = PoolVector2Array( 16, 10, 0, 10, 0, 5, 16, 5 )
 
-[sub_resource type="ConvexPolygonShape2D" id=57]
-points = PoolVector2Array( 16, 10, 0, 10, 0, 5, 16, 5 )
-
-[sub_resource type="ConvexPolygonShape2D" id=13]
-points = PoolVector2Array( 16, 10, 0, 10, 0, 5, 16, 5 )
-
 [sub_resource type="ConvexPolygonShape2D" id=15]
 points = PoolVector2Array( 16, 10.002, 0, 10.002, 0.02, 6.525, 16, 6.525 )
 
@@ -138,6 +132,9 @@ points = PoolVector2Array( 4, 16, 12, 16, 12, 0, 4, 0 )
 
 [sub_resource type="ConvexPolygonShape2D" id=35]
 points = PoolVector2Array( 16, 10, 0, 10, 0, 5, 16, 5 )
+
+[sub_resource type="ConvexPolygonShape2D" id=57]
+points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 
 [sub_resource type="ConvexPolygonShape2D" id=53]
 points = PoolVector2Array( 16, 10, 0, 10, 0, 5, 16, 5 )
@@ -719,7 +716,7 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 10, 0, 10 )
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 32/z_index = 0
-33/name = "Destruct_HIzq"
+33/name = "Destruct_HMid"
 33/texture = ExtResource( 2 )
 33/tex_offset = Vector2( 0, 0 )
 33/modulate = Color( 1, 1, 1, 1 )
@@ -740,48 +737,6 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 10, 0, 10 )
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 33/z_index = 0
-34/name = "Destruct_HDer"
-34/texture = ExtResource( 2 )
-34/tex_offset = Vector2( 0, 0 )
-34/modulate = Color( 1, 1, 1, 1 )
-34/region = Rect2( 32, 0, 16, 16 )
-34/tile_mode = 0
-34/occluder_offset = Vector2( 0, 0 )
-34/navigation_offset = Vector2( 0, 0 )
-34/shape_offset = Vector2( 0, 0 )
-34/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-34/shape = SubResource( 57 )
-34/shape_one_way = false
-34/shape_one_way_margin = 1.0
-34/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 57 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-34/z_index = 0
-36/name = "Destruct_HMid"
-36/texture = ExtResource( 2 )
-36/tex_offset = Vector2( 0, 0 )
-36/modulate = Color( 1, 1, 1, 1 )
-36/region = Rect2( 0, 0, 16, 16 )
-36/tile_mode = 0
-36/occluder_offset = Vector2( 0, 0 )
-36/navigation_offset = Vector2( 0, 0 )
-36/shape_offset = Vector2( 0, 0 )
-36/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-36/shape = SubResource( 13 )
-36/shape_one_way = false
-36/shape_one_way_margin = 1.0
-36/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 13 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-36/z_index = 0
 37/name = "BloquesEspeciales.png 37"
 37/texture = ExtResource( 3 )
 37/tex_offset = Vector2( 0, 0 )
@@ -1150,6 +1105,27 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 10, 0, 10 )
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 53/z_index = 0
+54/name = "CerrarBloqDest"
+54/texture = ExtResource( 4 )
+54/tex_offset = Vector2( 0, 0 )
+54/modulate = Color( 1, 1, 1, 1 )
+54/region = Rect2( 48, 0, 16, 16 )
+54/tile_mode = 0
+54/occluder_offset = Vector2( 0, 0 )
+54/navigation_offset = Vector2( 0, 0 )
+54/shape_offset = Vector2( 0, 0 )
+54/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+54/shape = SubResource( 57 )
+54/shape_one_way = false
+54/shape_one_way_margin = 1.0
+54/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 57 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+54/z_index = 0
 
 [sub_resource type="TileSet" id=14]
 0/name = "AlfombraRoja"
@@ -1229,11 +1205,12 @@ cell_size = Vector2( 16, 16 )
 cell_tile_origin = 1
 cell_y_sort = true
 format = 1
-tile_data = PoolIntArray( 0, 13, 0, 1, 14, 0, 2, 14, 0, 3, 53, 0, 4, 14, 0, 5, 14, 0, 6, 14, 0, 7, 14, 0, 8, 14, 0, 9, 14, 0, 10, 14, 0, 11, 14, 0, 12, 14, 0, 13, 14, 0, 14, 22, 0, 15, 14, 0, 16, 14, 0, 17, 14, 0, 18, 14, 0, 19, 14, 0, 20, 14, 0, 21, 14, 0, 22, 53, 0, 23, 14, 0, 24, 14, 0, 25, 14, 0, 26, 14, 0, 27, 14, 0, 28, 14, 0, 29, 536870925, 0, 65536, 8, 0, 65565, 536870920, 0, 131072, 8, 0, 131101, 536870920, 0, 196608, 8, 0, 196616, 7, 0, 196624, 7, 0, 196637, 536870920, 0, 262144, 8, 0, 262152, 9, 0, 262160, 8, 0, 262173, 536870920, 0, 327680, 8, 0, 327696, 32, 0, 327709, 536870920, 0, 393216, 8, 0, 393232, 32, 0, 393245, 536870920, 0, 458752, 8, 0, 458760, 7, 0, 458768, 8, 0, 458781, 8, 0, 524288, 8, 0, 524296, 9, 0, 524304, 9, 0, 524317, 536870920, 0, 589824, 8, 0, 589853, 536870920, 0, 655360, 8, 0, 655389, 536870920, 0, 720896, 2, 0, 720897, 14, 0, 720898, 14, 0, 720899, 14, 0, 720900, 14, 0, 720901, 14, 0, 720902, 14, 0, 720903, 14, 0, 720904, 14, 0, 720905, 14, 0, 720906, 14, 0, 720907, 14, 0, 720908, 14, 0, 720909, 14, 0, 720910, 14, 0, 720911, 14, 0, 720912, 14, 0, 720913, 14, 0, 720914, 14, 0, 720915, 14, 0, 720916, 14, 0, 720917, 14, 0, 720918, 14, 0, 720919, 14, 0, 720920, 14, 0, 720921, 14, 0, 720922, 14, 0, 720923, 14, 0, 720924, 14, 0, 720925, 536870914, 0, 786432, 8, 0, 786461, 536870920, 0, 851968, 8, 0, 851997, 536870920, 0, 917504, 8, 0, 917533, 536870920, 0, 983040, 8, 0, 983069, 536870920, 0, 1048576, 12, 0, 1048577, 14, 0, 1048578, 14, 0, 1048579, 14, 0, 1048580, 14, 0, 1048581, 14, 0, 1048582, 14, 0, 1048583, 22, 0, 1048584, 14, 0, 1048585, 14, 0, 1048586, 14, 0, 1048587, 14, 0, 1048588, 14, 0, 1048589, 14, 0, 1048590, 14, 0, 1048591, 14, 0, 1048592, 14, 0, 1048593, 53, 0, 1048594, 14, 0, 1048595, 14, 0, 1048596, 14, 0, 1048597, 14, 0, 1048598, 14, 0, 1048599, 14, 0, 1048600, 14, 0, 1048601, 14, 0, 1048602, 536870934, 0, 1048603, 14, 0, 1048604, 14, 0, 1048605, 10, 0 )
+tile_data = PoolIntArray( 0, 13, 0, 1, 14, 0, 2, 14, 0, 3, 53, 0, 4, 14, 0, 5, 14, 0, 6, 14, 0, 7, 14, 0, 8, 14, 0, 9, 14, 0, 10, 14, 0, 11, 14, 0, 12, 14, 0, 13, 14, 0, 14, 22, 0, 15, 14, 0, 16, 14, 0, 17, 14, 0, 18, 14, 0, 19, 14, 0, 20, 14, 0, 21, 14, 0, 22, 53, 0, 23, 14, 0, 24, 14, 0, 25, 14, 0, 26, 14, 0, 27, 14, 0, 28, 14, 0, 29, 536870925, 0, 65536, 8, 0, 65565, 536870920, 0, 131072, 8, 0, 131101, 536870920, 0, 196608, 8, 0, 196637, 536870920, 0, 262144, 8, 0, 262173, 536870920, 0, 327680, 8, 0, 327709, 536870920, 0, 393216, 8, 0, 393245, 536870920, 0, 458752, 8, 0, 458781, 8, 0, 524288, 8, 0, 524317, 536870920, 0, 589824, 8, 0, 589853, 536870920, 0, 655360, 8, 0, 655389, 536870920, 0, 720896, 8, 0, 720925, 536870920, 0, 786432, 8, 0, 786461, 536870920, 0, 851968, 8, 0, 851997, 536870920, 0, 917504, 8, 0, 917533, 536870920, 0, 983040, 8, 0, 983069, 536870920, 0, 1048576, 12, 0, 1048577, 14, 0, 1048578, 14, 0, 1048579, 14, 0, 1048580, 14, 0, 1048581, 14, 0, 1048582, 14, 0, 1048583, 22, 0, 1048584, 14, 0, 1048585, 14, 0, 1048586, 14, 0, 1048587, 14, 0, 1048588, 14, 0, 1048589, 14, 0, 1048590, 14, 0, 1048591, 14, 0, 1048592, 14, 0, 1048593, 53, 0, 1048594, 14, 0, 1048595, 14, 0, 1048596, 14, 0, 1048597, 14, 0, 1048598, 14, 0, 1048599, 14, 0, 1048600, 14, 0, 1048601, 14, 0, 1048602, 536870934, 0, 1048603, 14, 0, 1048604, 14, 0, 1048605, 10, 0 )
 script = ExtResource( 6 )
 
 [node name="TanquePlayer" parent="." groups=["Jugador"] instance=ExtResource( 5 )]
-position = Vector2( 64, 98 )
+pause_mode = 2
+position = Vector2( 72, 138 )
 collision_layer = 1
 collision_mask = 1
 
@@ -1247,5 +1224,8 @@ cell_tile_origin = 1
 cell_y_sort = true
 format = 1
 script = ExtResource( 8 )
+__meta__ = {
+"_edit_lock_": true
+}
 
-[connection signal="Jugador_Muere" from="TanquePlayer" to="." method="_on_TanquePlayer_Jugador_Muere"]
+[connection signal="player_dies" from="TanquePlayer" to="." method="_on_TanquePlayer_player_dies"]

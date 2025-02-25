@@ -6,7 +6,7 @@
 [node name="Tanque" groups=["Enemigo"] instance=ExtResource( 1 )]
 show_behind_parent = true
 script = ExtResource( 2 )
-bulletsPerSecond = 0.5
+balasPorSec = 0.5
 
 [node name="TimepoDisparo" type="Timer" parent="." index="5"]
 autostart = true

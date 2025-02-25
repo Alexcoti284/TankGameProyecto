@@ -1,52 +1,52 @@
 extends Node
-var levels = []
-var currentLevelIndex = -1
-var currentLevel
+var niveles = []
+var IndexActualNivel = -1
+var NivelActual
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
-	# Get levels
-	var levelsdir = Directory.new()
-	levelsdir.open("res://Escenas//levels")
-	levelsdir.list_dir_begin(true, true)
-	var levelStringFormat = levelsdir.get_current_dir() + "/%s"
-	var level = levelsdir.get_next() # Getting first file
-	level = levelsdir.get_next() # Ignoring "Level.tscn"
+	# coje niveles
+	var DirectorioNivel = Directory.new()
+	DirectorioNivel.open("res://Escenas/Niveles")
+	DirectorioNivel.list_dir_begin(true, true)
+	var CadenaFormatNivel = DirectorioNivel.get_current_dir() + "/%s"
+	var nivel = DirectorioNivel.get_next() # Coje priimer directorio
+	nivel = DirectorioNivel.get_next() # Ignora "Nivel.tscn"
 
-	# Start the game at a specific level (Default is #1)
-	for i in Debug.STARTING_LEVEL: level = levelsdir.get_next() # Ignoring Levels
+	# Empieza en un nivel (Default es #1)
+	for i in Debug.STARTING_LEVEL: nivel = DirectorioNivel.get_next() # Ignora niveles
 
-	while(level != ""):
-		var levelString = levelStringFormat % level
-		var loadedLevel = load(levelString)
-		levels.append(loadedLevel)
-		level = levelsdir.get_next()
+	while(nivel != ""):
+		var CadenaNivel = CadenaFormatNivel % nivel
+		var NivelCargado = load(CadenaNivel)
+		niveles.append(NivelCargado)
+		nivel = DirectorioNivel.get_next()
 
 	# warning-ignore:return_value_discarded
 	AudioManager.connect("intro_finished", self, "unpause")
-	nextLevel()
+	SiguienteNivel()
 
-func nextLevel():
-	currentLevelIndex += 1
-	if currentLevelIndex < levels.size():
-		if currentLevel: currentLevel.queue_free()
+func SiguienteNivel():
+	IndexActualNivel += 1
+	if IndexActualNivel < niveles.size():
+		if NivelActual: NivelActual.queue_free()
 		get_tree().paused = true
-		AudioManager.startBGMusic(AudioManager.TRACKS.INTRO)
+		AudioManager.startMusicaFondo(AudioManager.TRACKS.INTRO)
 		_addCurrentLevel()
 	else:
 		get_tree().quit()
 
-func restartLevel():
-	currentLevel.queue_free()
+func RestartNivel():
+	NivelActual.queue_free()
 	get_tree().paused = true
-	AudioManager.startBGMusic(AudioManager.TRACKS.REPLAY)
+	AudioManager.startMusicaFondo(AudioManager.TRACKS.REPLAY)
 	_addCurrentLevel()
 
 func _addCurrentLevel():
-	currentLevel = levels[currentLevelIndex].instance()
-	currentLevel.connect("enemies_killed", self, 'nextLevel')
-	currentLevel.connect("player_died", self, 'restartLevel')
-	add_child(currentLevel)
+	NivelActual = niveles[IndexActualNivel].instance()
+	NivelActual.connect("Enemigos_Muertos", self, 'SiguienteNivel')
+	NivelActual.connect("Jugador_Muere", self, 'RestartNivel')
+	add_child(NivelActual)
 
 func unpause():
 	get_tree().paused = false

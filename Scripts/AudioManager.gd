@@ -45,7 +45,7 @@ func _on_stream_finished(stream):
 func play(sound):
 	queue.append(sound)
 			
-func startBGMusic(track):
+func startMusicaFondo(track):
 	match(track):
 		TRACKS.INTRO:
 			$MusicaFondo.stream = preload("res://SFX/intro.wav")
@@ -121,11 +121,11 @@ func _on_MusicaFondo_finished():
 	if (introPlaying):
 		emit_signal("intro_finished")
 		introPlaying = false
-		startBGMusic(TRACKS.MAIN)
+		startMusicaFondo(TRACKS.MAIN)
 	else:
 		if (outroPlaying):
 			outroPlaying = false
 		else:
-			startBGMusic(TRACKS.INTRO)
+			startMusicaFondo(TRACKS.INTRO)
 
 
