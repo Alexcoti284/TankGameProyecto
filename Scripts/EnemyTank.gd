@@ -1,6 +1,6 @@
 extends "res://Scripts/Tank.gd"
 
-var RayCastUtils = preload("res://Scripts/DetectarEnemigos.gd")
+var RayCastUtils = preload("res://Scripts/RayCastUtils.gd")
 
 var rotationDirection = 1
 var cannonRotSpeed = 1.5

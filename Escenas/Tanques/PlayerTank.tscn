@@ -5,6 +5,7 @@
 [ext_resource path="res://Scripts/PlayerTank.gd" type="Script" id=3]
 
 [node name="PlayerTank" instance=ExtResource( 1 )]
+pause_mode = 2
 script = ExtResource( 3 )
 maxBullets = 3
 maxMines = 2

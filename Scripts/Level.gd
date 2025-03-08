@@ -1,12 +1,12 @@
 extends TileMap
-const BloqueDestructible  = preload("res://Escenas/BloqueDestructible.tscn")
+const Straw = preload("res://Escenas/Straw.tscn")
 
 signal player_died
 signal enemies_killed
 signal level_start
 signal level_end
 
-# Called when the node enters the scene tree for the first time. 
+# Called when the node enters the scene tree for the first time.
 func _ready():
 	var enemies = get_tree().get_nodes_in_group("enemy")
 	for e in enemies:
@@ -21,27 +21,25 @@ func _ready():
 	
 	emit_signal("level_start")
 
-	# Remplaza los tiles por los tiles del bloque
-	var Destruct_HMid = get_used_cells_by_id(33) 
-	for Bloque in Destruct_HMid:
-		set_cellv(Bloque,-1)
-		var EscenaBloqueDestructible = BloqueDestructible.instance()
-		EscenaBloqueDestructible.position = Bloque*16 + Vector2(8,8)
-		EscenaBloqueDestructible.vertical = false
-		add_child(EscenaBloqueDestructible)
-	
-		
-	var Destruct_V = get_used_cells_by_id(32)
-	for Bloque in Destruct_V:
-		set_cellv(Bloque,-1)
-		var EscenaBloqueDestructible = BloqueDestructible.instance()
-		EscenaBloqueDestructible.position = Bloque*16 + Vector2(8,8)
-		EscenaBloqueDestructible.vertical = true
-		add_child(EscenaBloqueDestructible)
+	# Replace straw tiles with straw scenes
+	var straws_h = get_used_cells_by_id(33) # 23 is the index for straw horizontal
+	for straw in straws_h:
+		set_cellv(straw,-1)
+		var sceneStraw = Straw.instance()
+		sceneStraw.position = straw*16 + Vector2(8,8)
+		sceneStraw.vertical = false
+		add_child(sceneStraw)
+	var straws_v = get_used_cells_by_id(32) # 24 is the index for straw vertical
+	for straw in straws_v:
+		set_cellv(straw,-1)
+		var sceneStraw = Straw.instance()
+		sceneStraw.position = straw*16 + Vector2(8,8)
+		sceneStraw.vertical = true
+		add_child(sceneStraw)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	if (get_node_or_null("PlayerTank")):	
+	if (get_node_or_null("PlayerTank")):		
 		var tankDirection
 		if (Input.is_action_pressed("move_up") && Input.is_action_pressed("move_right")):
 			tankDirection = $PlayerTank.directions.UP_RIGHT
@@ -89,6 +87,11 @@ func checkIfAllEnemiesKilled():
 	else:
 		AudioManager.play(AudioManager.SOUNDS.TANK_KILL)
 
+func _on_nextLevel_timer_timeout():
+	if (get_parent().name == "Main"):
+		emit_signal("enemies_killed")
+	else:
+		get_tree().quit()
 
 func _on_PlayerTank_player_dies():
 	deleteAllBullets()
@@ -101,13 +104,6 @@ func _on_PlayerTank_player_dies():
 	
 	AudioManager.startBGMusic(AudioManager.TRACKS.LOSE)
 	emit_signal("level_end")
-
-
-func _on_nextLevel_timer_timeout():
-	if (get_parent().name == "Main"):
-		emit_signal("enemies_killed")
-	else:
-		get_tree().quit()
 
 func _on_death_timer_timeout():
 	if (get_parent().name == "Main"):
