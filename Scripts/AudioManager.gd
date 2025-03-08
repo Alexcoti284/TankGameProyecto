@@ -45,33 +45,33 @@ func _on_stream_finished(stream):
 func play(sound):
 	queue.append(sound)
 			
-func startMusicaFondo(track):
+func startBGMusic(track):
 	match(track):
 		TRACKS.INTRO:
-			$MusicaFondo.stream = preload("res://SFX/intro.wav")
-			$MusicaFondo.volume_db = -5
-			$MusicaFondo.play()
+			$BGMusic.stream = preload("res://SFX/intro.wav")
+			$BGMusic.volume_db = -5
+			$BGMusic.play()
 			introPlaying = true
 		TRACKS.MAIN:
-			$MusicaFondo.stream = preload("res://SFX/main.wav")
-			$MusicaFondo.volume_db = -5
-			$MusicaFondo.play()
+			$BGMusic.stream = preload("res://SFX/main.wav")
+			$BGMusic.volume_db = -5
+			$BGMusic.play()
 		TRACKS.WIN:
-			if ($MusicaFondo.stream != preload("res://SFX/lose.wav")): # We don't want this to play when we already lost and the lose sfx is playing
-				$MusicaFondo.stream = preload("res://SFX/win.wav")
-				$MusicaFondo.volume_db = -5
-				$MusicaFondo.play()
+			if ($BGMusic.stream != preload("res://SFX/lose.wav")): # We don't want this to play when we already lost and the lose sfx is playing
+				$BGMusic.stream = preload("res://SFX/win.wav")
+				$BGMusic.volume_db = -5
+				$BGMusic.play()
 				outroPlaying = true
 		TRACKS.LOSE:
-			if ($MusicaFondo.stream != preload("res://SFX/win.wav")): # We don't want this to play when we already won and the win sfx is playing
-				$MusicaFondo.stream = preload("res://SFX/lose.wav")
-				$MusicaFondo.volume_db = -5
-				$MusicaFondo.play()
+			if ($BGMusic.stream != preload("res://SFX/win.wav")): # We don't want this to play when we already won and the win sfx is playing
+				$BGMusic.stream = preload("res://SFX/lose.wav")
+				$BGMusic.volume_db = -5
+				$BGMusic.play()
 				outroPlaying = true
 		TRACKS.REPLAY:
-			$MusicaFondo.stream = preload("res://SFX/replay.wav")
-			$MusicaFondo.volume_db = -5
-			$MusicaFondo.play()
+			$BGMusic.stream = preload("res://SFX/replay.wav")
+			$BGMusic.volume_db = -5
+			$BGMusic.play()
 			introPlaying = true
 
 func _process(_delta):
@@ -117,15 +117,15 @@ func _process(_delta):
 		available[0].play()
 		available.pop_front()
 
-func _on_MusicaFondo_finished():
+func _on_BGMusic_finished():
 	if (introPlaying):
 		emit_signal("intro_finished")
 		introPlaying = false
-		startMusicaFondo(TRACKS.MAIN)
+		startBGMusic(TRACKS.MAIN)
 	else:
 		if (outroPlaying):
 			outroPlaying = false
 		else:
-			startMusicaFondo(TRACKS.INTRO)
+			startBGMusic(TRACKS.INTRO)
 
 

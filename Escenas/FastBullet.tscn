@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Escenas/Bala.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Escenas/Bullet.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/fastBullet.png" type="Texture" id=2]
 
 [node name="BalaRapida" instance=ExtResource( 1 )]

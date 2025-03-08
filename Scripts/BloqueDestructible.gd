@@ -2,15 +2,15 @@ extends StaticBody2D
 
 export var vertical = false
 
-# Lo llama cuando entra (se rompe el bloque) por primera vez
+# Called when the node enters the scene tree for the first time.
 func _ready():
 	if !vertical:
 		$AnimationPlayer.play("Default_H")
 	else:
-		$AnimatedSprite.animation = "Default_V" # Para obtener la animación vertical predeterminada antes de que comience el nivel (congelar antes de comenzar hace que sea necesario)
+		$AnimatedSprite.animation = "Default_V" # To get the default vertical animation before the level begins (Freeze before start makes this necessary)
 		$AnimationPlayer.play("Default_V")
 
-func Explosion():
+func blast():
 	if !vertical:
 		$AnimationPlayer.play("Explota_H")
 	else:

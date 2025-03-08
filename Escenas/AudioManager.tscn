@@ -6,6 +6,6 @@
 pause_mode = 2
 script = ExtResource( 1 )
 
-[node name="MusicaFondo" type="AudioStreamPlayer" parent="."]
+[node name="BGMusic" type="AudioStreamPlayer" parent="."]
 
-[connection signal="finished" from="MusicaFondo" to="." method="_on_MusicaFondo_finished"]
+[connection signal="finished" from="BGMusic" to="." method="_on_BGMusic_finished"]

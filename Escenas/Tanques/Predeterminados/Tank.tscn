@@ -1,6 +1,6 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://Scripts/Tanque.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Tank.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/cannon-blue.png" type="Texture" id=2]
 [ext_resource path="res://Colisiones/HitboxHorizontal.tres" type="Shape2D" id=3]
 [ext_resource path="res://Sprites/tanks-blue.png" type="Texture" id=4]
@@ -9,7 +9,7 @@
 [sub_resource type="Animation" id=2]
 resource_name = "DiagonalAbajo"
 tracks/0/type = "value"
-tracks/0/path = NodePath("Cuerpo:frame")
+tracks/0/path = NodePath("Body:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -21,7 +21,7 @@ tracks/0/keys = {
 "values": [ 3 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("ColisionDiagonal:disabled")
+tracks/1/path = NodePath("Diagonal_collision:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -33,7 +33,7 @@ tracks/1/keys = {
 "values": [ false ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("ColisionDiagonal:scale")
+tracks/2/path = NodePath("Diagonal_collision:scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -60,7 +60,7 @@ tracks/3/keys = {
 [sub_resource type="Animation" id=3]
 resource_name = "DiagonalArriba"
 tracks/0/type = "value"
-tracks/0/path = NodePath("Cuerpo:frame")
+tracks/0/path = NodePath("Body:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -72,7 +72,7 @@ tracks/0/keys = {
 "values": [ 2 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("ColisionDiagonal:disabled")
+tracks/1/path = NodePath("Diagonal_collision:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -84,7 +84,7 @@ tracks/1/keys = {
 "values": [ false ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("ColisionDiagonal:scale")
+tracks/2/path = NodePath("Diagonal_collision:scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -135,7 +135,7 @@ tracks/1/keys = {
 "values": [ false ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Cuerpo:frame")
+tracks/2/path = NodePath("Body:frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -147,7 +147,7 @@ tracks/2/keys = {
 "values": [ 0 ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("ColisionDiagonal:disabled")
+tracks/3/path = NodePath("Diagonal_collision:disabled")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -157,69 +157,6 @@ tracks/3/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ true ]
-}
-
-[sub_resource type="Animation" id=5]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("Cuerpo:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("ColisionDiagonal:disabled")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ false ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("ColisionDiagonal:scale")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 1, 1 ) ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("CollisionShape2D:disabled")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ true ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("CollisionShape2D:shape")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ ExtResource( 3 ) ]
 }
 
 [sub_resource type="Animation" id=6]
@@ -228,7 +165,7 @@ resource_name = "TanqueMovimiento"
 [sub_resource type="Animation" id=7]
 resource_name = "Vertical"
 tracks/0/type = "value"
-tracks/0/path = NodePath("Cuerpo:frame")
+tracks/0/path = NodePath("Body:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -264,7 +201,7 @@ tracks/2/keys = {
 "values": [ false ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("ColisionDiagonal:disabled")
+tracks/3/path = NodePath("Diagonal_collision:disabled")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -279,7 +216,7 @@ tracks/3/keys = {
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 4.947, 1.044 )
 
-[node name="Tanque" type="KinematicBody2D" groups=["Destruible"]]
+[node name="Tank" type="KinematicBody2D" groups=["destroyable"]]
 collision_layer = 2
 collision_mask = 23
 script = ExtResource( 1 )
@@ -288,32 +225,32 @@ script = ExtResource( 1 )
 shape = ExtResource( 3 )
 disabled = true
 
-[node name="Cuerpo" type="Sprite" parent="."]
+[node name="Body" type="Sprite" parent="."]
 texture = ExtResource( 4 )
 hframes = 4
+frame = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/DiagonalAbajo = SubResource( 2 )
 anims/DiagonalArriba = SubResource( 3 )
 anims/Horizontal = SubResource( 4 )
-anims/RESET = SubResource( 5 )
 anims/TanqueMovimiento = SubResource( 6 )
 anims/Vertical = SubResource( 7 )
 
-[node name="ColisionDiagonal" type="CollisionPolygon2D" parent="."]
+[node name="Diagonal_collision" type="CollisionPolygon2D" parent="."]
 polygon = PoolVector2Array( -6.87, 0.684, -7.413, -1.593, -1.99, -7.016, 1.155, -6.907, 7.011, -1.159, 7.228, 1.552, 2.022, 6.866, -0.906, 7.191 )
 
-[node name="Cañon" type="Area2D" parent="."]
+[node name="Cannon" type="Area2D" parent="."]
 position = Vector2( 0, -2 )
 collision_layer = 8
 
-[node name="SpriteCañon" type="Sprite" parent="Cañon"]
+[node name="CannonSprite" type="Sprite" parent="Cannon"]
 z_index = 1
 texture = ExtResource( 2 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Cañon"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Cannon"]
 position = Vector2( 4.96, 0.013 )
 shape = SubResource( 1 )

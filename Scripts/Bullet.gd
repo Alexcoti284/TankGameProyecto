@@ -1,15 +1,15 @@
 extends KinematicBody2D
 
-var Explosion = preload("res://Escenas/Efectos/IniExplosion.tscn")
-var Ricochet = preload("res://Escenas/Efectos/Rebote.tscn")
-var Humo = preload("res://Escenas/Efectos/Humo.tscn")
+var Explosion = preload("res://Escenas/Efectos/Explosion.tscn")
+var Ricochet = preload("res://Escenas/Efectos/Ricochet.tscn")
+var Smoke = preload("res://Escenas/Efectos/Smoke.tscn")
 
-export var velocidad = 150.0
-export var RebotesMax = 1
-var RebotesActu
+export var speed = 150.0
+export var maxRebounds = 1
+var currentRebounds
 var velocity = Vector2()
 
-class_name Bala
+class_name Bullet
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -18,7 +18,7 @@ func _ready():
 func setup(initialPosition: Vector2, initialVelocity: Vector2):
 	position = initialPosition
 	self.velocity = initialVelocity.normalized()
-	RebotesActu = 0
+	currentRebounds = 0
 	self.rotation = initialVelocity.angle()
 
 func destroy():
@@ -26,22 +26,22 @@ func destroy():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	var collision = move_and_collide(velocity*delta*velocidad)
+	var collision = move_and_collide(velocity*delta*speed)
 	if (collision):
-		if (collision.collider.get_groups().has("Destruible")):
-			if (!collision.collider.get_groups().has("Puede_Explotar")):
+		if (collision.collider.get_groups().has("destroyable")):
+			if (!collision.collider.get_groups().has("no_explosion")):
 				createExplosion(collision.collider.position)
 			collision.collider.destroy()
 			AudioManager.play(AudioManager.SOUNDS.BULLET_SHOT)
 			self.destroy()
 		else: # Collision with walls
-			if (RebotesActu >= RebotesMax):
+			if (currentRebounds >= maxRebounds):
 				instanceSmoke(true)
 				queue_free()
 			else: 
 				velocity = velocity.bounce(collision.normal)
 				self.rotation = velocity.angle()
-				RebotesActu += 1;
+				currentRebounds += 1;
 				
 				# Ricochet
 				var ricochet = Ricochet.instance()
@@ -62,7 +62,7 @@ func getCollisionShape() -> Shape:
 	return $CollisionShape2D.shape
 
 func instanceSmoke(sound):
-	var humo = Humo.instance()
-	humo.position = position
-	humo.conSonido = sound
-	get_parent().add_child(humo)
+	var smoke = Smoke.instance()
+	smoke.position = position
+	smoke.withSound = sound
+	get_parent().add_child(smoke)
