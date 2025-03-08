@@ -6,7 +6,7 @@ signal enemies_killed
 signal level_start
 signal level_end
 
-# Called when the node enters the scene tree for the first time.
+# Called when the node enters the scene tree for the first time. 
 func _ready():
 	var enemies = get_tree().get_nodes_in_group("enemy")
 	for e in enemies:
