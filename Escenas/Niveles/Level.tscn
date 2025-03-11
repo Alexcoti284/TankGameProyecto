@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=2]
+[gd_scene load_steps=57 format=2]
 
 [ext_resource path="res://Sprites/Alfombra.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Destruct.png" type="Texture" id=2]
@@ -6,8 +6,9 @@
 [ext_resource path="res://Sprites/4 Walls, Floor & Doors.png" type="Texture" id=4]
 [ext_resource path="res://Escenas/Tanques/PlayerTank.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scripts/Level.gd" type="Script" id=6]
-[ext_resource path="res://Colisiones/ParedesHorizontal.tres" type="Shape2D" id=7]
+[ext_resource path="res://Colisiones/Bloques/ParedesHorizontal.tres" type="Shape2D" id=7]
 [ext_resource path="res://Scripts/SueloRandom.gd" type="Script" id=8]
+[ext_resource path="res://Colisiones/Bloques/ParedNormal.tres" type="Shape2D" id=9]
 
 [sub_resource type="ConvexPolygonShape2D" id=37]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
@@ -23,9 +24,6 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 10, 0, 10 )
 
 [sub_resource type="ConvexPolygonShape2D" id=34]
 points = PoolVector2Array( 0, 5, 16, 5, 16, 16, 0, 16 )
-
-[sub_resource type="ConvexPolygonShape2D" id=41]
-points = PoolVector2Array( 0, 5, 16, 5, 16, 10, 0, 10 )
 
 [sub_resource type="ConvexPolygonShape2D" id=42]
 points = PoolVector2Array( 0, 5, 16, 5, 16, 16, 0, 16 )
@@ -54,14 +52,8 @@ points = PoolVector2Array( 16, 10, 0, 10, 0, 0, 16, 0 )
 [sub_resource type="ConvexPolygonShape2D" id=50]
 points = PoolVector2Array( 16, 10, 0, 10, 0, 5, 16, 5 )
 
-[sub_resource type="ConvexPolygonShape2D" id=6]
-points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
-
-[sub_resource type="ConvexPolygonShape2D" id=7]
-points = PoolVector2Array( 0, 16, 4.946, 16, 4.946, 0, 0, 0 )
-
 [sub_resource type="ConvexPolygonShape2D" id=51]
-points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+points = PoolVector2Array( 0, 5, 16, 5, 16, 16, 0, 16 )
 
 [sub_resource type="ConvexPolygonShape2D" id=8]
 points = PoolVector2Array( 16, 10.002, 0, 10.002, 0.02, 6.525, 16, 6.525 )
@@ -74,6 +66,9 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 
 [sub_resource type="ConvexPolygonShape2D" id=11]
 points = PoolVector2Array( 16, 10, 0, 10, 0, 5, 16, 5 )
+
+[sub_resource type="ConvexPolygonShape2D" id=58]
+points = PoolVector2Array( 0, 5, 16, 5, 16, 10, 0, 10 )
 
 [sub_resource type="ConvexPolygonShape2D" id=15]
 points = PoolVector2Array( 16, 10.002, 0, 10.002, 0.02, 6.525, 16, 6.525 )
@@ -254,7 +249,7 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 10, 0, 10 )
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 4/z_index = 0
-6/name = "ContinuedIzq"
+6/name = "ParedCierrIzq"
 6/texture = ExtResource( 4 )
 6/tex_offset = Vector2( 0, 0 )
 6/modulate = Color( 1, 1, 1, 1 )
@@ -401,7 +396,7 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 10, 0, 10 )
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 13/z_index = 0
-14/name = "ParedMediBaj"
+14/name = "Normal"
 14/texture = ExtResource( 4 )
 14/tex_offset = Vector2( 0, 0 )
 14/modulate = Color( 1, 1, 1, 1 )
@@ -411,14 +406,14 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 10, 0, 10 )
 14/navigation_offset = Vector2( 0, 0 )
 14/shape_offset = Vector2( 0, 0 )
 14/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-14/shape = SubResource( 41 )
+14/shape = ExtResource( 9 )
 14/shape_one_way = false
 14/shape_one_way_margin = 1.0
 14/shapes = [ {
 "autotile_coord": Vector2( 0, 0 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 41 ),
+"shape": ExtResource( 9 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 14/z_index = 0
@@ -594,7 +589,7 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 10, 0, 10 )
 27/texture = ExtResource( 3 )
 27/tex_offset = Vector2( 0, 0 )
 27/modulate = Color( 1, 1, 1, 1 )
-27/region = Rect2( 32, 0, 16, 16 )
+27/region = Rect2( 48, 0, 16, 16 )
 27/tile_mode = 0
 27/occluder_offset = Vector2( 0, 0 )
 27/navigation_offset = Vector2( 0, 0 )
@@ -611,48 +606,6 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 10, 0, 10 )
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 27/z_index = 0
-28/name = "PuertaNormal"
-28/texture = ExtResource( 3 )
-28/tex_offset = Vector2( 0, 0 )
-28/modulate = Color( 1, 1, 1, 1 )
-28/region = Rect2( 32, 0, 16, 16 )
-28/tile_mode = 0
-28/occluder_offset = Vector2( 0, 0 )
-28/navigation_offset = Vector2( 0, 0 )
-28/shape_offset = Vector2( 0, 0 )
-28/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-28/shape = SubResource( 6 )
-28/shape_one_way = false
-28/shape_one_way_margin = 1.0
-28/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 6 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-28/z_index = 0
-29/name = "BloquesEspeciales.png 29"
-29/texture = ExtResource( 3 )
-29/tex_offset = Vector2( 0, 0 )
-29/modulate = Color( 1, 1, 1, 1 )
-29/region = Rect2( 48, 0, 16, 16 )
-29/tile_mode = 0
-29/occluder_offset = Vector2( 0, 0 )
-29/navigation_offset = Vector2( 0, 0 )
-29/shape_offset = Vector2( 0, 0 )
-29/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-29/shape = SubResource( 7 )
-29/shape_one_way = false
-29/shape_one_way_margin = 1.0
-29/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 7 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-29/z_index = 0
 30/name = "BloquesEspeciales.png 30"
 30/texture = ExtResource( 3 )
 30/tex_offset = Vector2( 0, 0 )
@@ -747,9 +700,16 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 10, 0, 10 )
 37/navigation_offset = Vector2( 0, 0 )
 37/shape_offset = Vector2( 0, 0 )
 37/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+37/shape = SubResource( 58 )
 37/shape_one_way = false
-37/shape_one_way_margin = 0.0
-37/shapes = [  ]
+37/shape_one_way_margin = 1.0
+37/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 58 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
 37/z_index = 0
 38/name = "BloquesEspeciales.png 38"
 38/texture = ExtResource( 3 )
@@ -920,7 +880,7 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 10, 0, 10 )
 45/texture = ExtResource( 3 )
 45/tex_offset = Vector2( 0, 0 )
 45/modulate = Color( 1, 1, 1, 1 )
-45/region = Rect2( 112, 16, 16, 16 )
+45/region = Rect2( 96, 0, 32, 32 )
 45/tile_mode = 0
 45/occluder_offset = Vector2( 0, 0 )
 45/navigation_offset = Vector2( 0, 0 )
