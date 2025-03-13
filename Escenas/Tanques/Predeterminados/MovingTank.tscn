@@ -8,31 +8,31 @@
 [sub_resource type="Animation" id=2]
 resource_name = "DiagonalAbajo"
 tracks/0/type = "value"
-tracks/0/path = NodePath("Cuerpo:frame")
+tracks/0/path = NodePath("CollisionShape2D:disabled")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ 3 ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath("ColisionDiagonal:disabled")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
 tracks/2/type = "value"
-tracks/2/path = NodePath("ColisionDiagonal:scale")
+tracks/2/path = NodePath("Diagonal_collision:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -40,11 +40,11 @@ tracks/2/enabled = true
 tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 1, 1 ) ]
+"update": 1,
+"values": [ false ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("CollisionShape2D:disabled")
+tracks/3/path = NodePath("Diagonal_collision:scale")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -52,14 +52,14 @@ tracks/3/enabled = true
 tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=3]
 resource_name = "DiagonalArriba"
 tracks/0/type = "value"
-tracks/0/path = NodePath("Cuerpo:frame")
+tracks/0/path = NodePath("CollisionShape2D:disabled")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -68,10 +68,10 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ 2 ]
+"values": [ true ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("ColisionDiagonal:disabled")
+tracks/1/path = NodePath("Body:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -80,10 +80,10 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ false ]
+"values": [ 2 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("ColisionDiagonal:scale")
+tracks/2/path = NodePath("Diagonal_collision:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -91,11 +91,11 @@ tracks/2/enabled = true
 tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -1, 1 ) ]
+"update": 1,
+"values": [ false ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("CollisionShape2D:disabled")
+tracks/3/path = NodePath("Diagonal_collision:scale")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -103,8 +103,8 @@ tracks/3/enabled = true
 tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
+"update": 0,
+"values": [ Vector2( -1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -134,7 +134,7 @@ tracks/1/keys = {
 "values": [ false ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Cuerpo:frame")
+tracks/2/path = NodePath("Body:frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -146,13 +146,13 @@ tracks/2/keys = {
 "values": [ 0 ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("ColisionDiagonal:disabled")
+tracks/3/path = NodePath("Diagonal_collision:disabled")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0 ),
+"times": PoolRealArray( 1 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ true ]
@@ -164,7 +164,7 @@ resource_name = "TanqueMovimiento"
 [sub_resource type="Animation" id=7]
 resource_name = "Vertical"
 tracks/0/type = "value"
-tracks/0/path = NodePath("Cuerpo:frame")
+tracks/0/path = NodePath("CollisionShape2D:shape")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -173,10 +173,10 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ 1 ]
+"values": [ ExtResource( 4 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("CollisionShape2D:shape")
+tracks/1/path = NodePath("CollisionShape2D:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -185,10 +185,10 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 4 ) ]
+"values": [ false ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("CollisionShape2D:disabled")
+tracks/2/path = NodePath("Body:frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -197,10 +197,10 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ false ]
+"values": [ 1 ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("ColisionDiagonal:disabled")
+tracks/3/path = NodePath("Diagonal_collision:disabled")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -218,12 +218,21 @@ extents = Vector2( 4.947, 1.044 )
 [node name="MovingTank" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
+[node name="CollisionShape2D" parent="." index="0"]
+shape = ExtResource( 4 )
+
+[node name="Body" parent="." index="1"]
+frame = 1
+
 [node name="AnimationPlayer" parent="." index="2"]
 anims/DiagonalAbajo = SubResource( 2 )
 anims/DiagonalArriba = SubResource( 3 )
 anims/Horizontal = SubResource( 4 )
 anims/TanqueMovimiento = SubResource( 6 )
 anims/Vertical = SubResource( 7 )
+
+[node name="Diagonal_collision" parent="." index="3"]
+scale = Vector2( -1, 1 )
 
 [node name="CollisionShape2D" parent="Cannon" index="1"]
 shape = SubResource( 1 )

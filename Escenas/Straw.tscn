@@ -240,7 +240,7 @@ animations = [ {
 extents = Vector2( 8, 7.98069 )
 
 [sub_resource type="RectangleShape2D" id=21]
-extents = Vector2( 8.03188, 1.94534 )
+extents = Vector2( 8.03188, 2.5 )
 
 [node name="Straw" type="StaticBody2D" groups=["can_be_blasted", "walls"]]
 script = ExtResource( 1 )
@@ -260,7 +260,7 @@ shape = SubResource( 20 )
 disabled = true
 
 [node name="Collision_H" type="CollisionShape2D" parent="."]
-position = Vector2( -1.90735e-06, 0.955235 )
+position = Vector2( 0, -0.5 )
 shape = SubResource( 21 )
 disabled = true
 

@@ -4,4 +4,4 @@ extends Node
 const SHOW_BULLET_RAYCASTS: bool = true
 const SHOW_MOVEMENT_RAYCASTS: bool = true
 
-const STARTING_LEVEL: int = 0
+const STARTING_LEVEL: int = 2

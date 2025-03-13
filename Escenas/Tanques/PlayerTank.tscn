@@ -10,14 +10,8 @@ script = ExtResource( 3 )
 maxBullets = 3
 maxMines = 2
 
-[node name="CollisionShape2D" parent="." index="0"]
-disabled = false
-
 [node name="Body" parent="." index="1"]
 frame = 0
-
-[node name="Diagonal_collision" parent="." index="3"]
-disabled = true
 
 [node name="MovingSound" type="AudioStreamPlayer" parent="." index="5"]
 stream = ExtResource( 2 )
