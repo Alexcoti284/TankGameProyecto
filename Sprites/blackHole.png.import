@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Hole.png-fc9afdb52f15b02873582377988fbc6d.stex"
+path="res://.import/blackHole.png-4426cf69d0ce9a99681931de62a85a83.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Hole.png"
-dest_files=[ "res://.import/Hole.png-fc9afdb52f15b02873582377988fbc6d.stex" ]
+source_file="res://Sprites/blackHole.png"
+dest_files=[ "res://.import/blackHole.png-4426cf69d0ce9a99681931de62a85a83.stex" ]
 
 [params]
 
@@ -24,7 +24,7 @@ flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
-process/fix_alpha_border=false
+process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
@@ -32,4 +32,4 @@ process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=true
-svg/scale=1.0
+svg/scale=0.001

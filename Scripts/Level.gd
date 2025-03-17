@@ -10,7 +10,7 @@ signal level_end
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-		
+
 	var enemies = get_tree().get_nodes_in_group("enemy")
 	for e in enemies:
 		e.connect("killed", self, "checkIfAllEnemiesKilled") 
@@ -23,8 +23,6 @@ func _ready():
 		self.connect("level_end", e, "fade_out")
 	
 	emit_signal("level_start")
-
-	
 
 	# Replace straw tiles with straw scenes
 	var straws_h = get_used_cells_by_id(33) # 23 is the index for straw horizontal

@@ -26,6 +26,7 @@ func destroy():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
+	
 	var collision = move_and_collide(velocity*delta*speed)
 	if (collision):
 		if (collision.collider.get_groups().has("destroyable")):

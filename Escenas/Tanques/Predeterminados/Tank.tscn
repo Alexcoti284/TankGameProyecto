@@ -222,12 +222,11 @@ collision_mask = 23
 script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = ExtResource( 5 )
+shape = ExtResource( 3 )
 
 [node name="Body" type="Sprite" parent="."]
 texture = ExtResource( 4 )
 hframes = 4
-frame = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/DiagonalAbajo = SubResource( 2 )
@@ -237,7 +236,6 @@ anims/TanqueMovimiento = SubResource( 6 )
 anims/Vertical = SubResource( 7 )
 
 [node name="Diagonal_collision" type="CollisionPolygon2D" parent="."]
-scale = Vector2( -1, 1 )
 polygon = PoolVector2Array( -6.87, 0.684, -7.413, -1.593, -1.99, -7.016, 1.155, -6.907, 7.011, -1.159, 7.228, 1.552, 2.022, 6.866, -0.906, 7.191 )
 disabled = true
 
