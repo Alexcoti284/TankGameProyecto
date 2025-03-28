@@ -1,0 +1,120 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Scripts/LevelSelected.gd" type="Script" id=1]
+[ext_resource path="res://Escenas/CloudScene.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Sprites/PixelArtLaptop/UI_ItchIo/Niveles.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/PixelArtLaptop/UI_ItchIo/Buttons.png" type="Texture" id=4]
+[ext_resource path="res://Gui/grid_container.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Fonts/LilitaOne-Regular.ttf" type="DynamicFontData" id=6]
+
+[sub_resource type="DynamicFont" id=7]
+size = 25
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 6 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 4 )
+region = Rect2( 192, 192, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 4 )
+region = Rect2( 224, 64, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 4 )
+region = Rect2( 192, 64, 32, 32 )
+
+[node name="LevelSelected" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="CloudScene" parent="." instance=ExtResource( 2 )]
+
+[node name="LevelMenu" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -147.5
+margin_top = -78.5
+margin_right = 147.5
+margin_bottom = 78.5
+size_flags_horizontal = 2
+size_flags_vertical = 2
+texture = ExtResource( 3 )
+stretch_mode = 1
+
+[node name="Label" type="Label" parent="LevelMenu"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -66.0
+margin_top = -14.5
+margin_right = 67.0
+margin_bottom = 15.5
+custom_fonts/font = SubResource( 7 )
+text = "TANK GAME"
+
+[node name="BackButton" type="TextureButton" parent="LevelMenu"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = -13.5
+margin_top = -16.0
+margin_right = 18.5
+margin_bottom = 16.0
+texture_normal = SubResource( 6 )
+texture_pressed = SubResource( 3 )
+texture_hover = SubResource( 4 )
+expand = true
+stretch_mode = 4
+
+[node name="ClipControl" type="Control" parent="LevelMenu"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -88.0
+margin_top = -52.0
+margin_right = 88.0
+margin_bottom = 52.0
+rect_clip_content = true
+
+[node name="GridContainer" type="HBoxContainer" parent="LevelMenu/ClipControl"]
+unique_name_in_owner = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -88.0
+margin_top = -52.0
+margin_right = 448.0
+margin_bottom = 52.0
+
+[node name="GridContainer" parent="LevelMenu/ClipControl/GridContainer" instance=ExtResource( 5 )]
+
+[node name="GridContainer2" parent="LevelMenu/ClipControl/GridContainer" instance=ExtResource( 5 )]
+margin_left = 180.0
+margin_right = 356.0
+
+[node name="GridContainer3" parent="LevelMenu/ClipControl/GridContainer" instance=ExtResource( 5 )]
+margin_left = 360.0
+margin_right = 536.0
+
+[node name="NextButton" type="TextureButton" parent="LevelMenu"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -16.5
+margin_top = -15.0
+margin_right = 15.5
+margin_bottom = 17.0
+texture_normal = SubResource( 6 )
+texture_pressed = SubResource( 3 )
+texture_hover = SubResource( 4 )
+expand = true
+stretch_mode = 4
+
+[connection signal="pressed" from="LevelMenu/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="LevelMenu/NextButton" to="." method="_on_next_button_pressed"]

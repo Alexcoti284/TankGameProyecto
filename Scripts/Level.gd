@@ -10,7 +10,10 @@ signal level_end
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-
+	var scene_name = get_parent().name # Obtiene el nombre de la escena
+	var level_number = scene_name.replace("Level", "").to_int() # Elimina "Level" y convierte a número
+	Global.nivel_actual = level_number # Guarda el nivel actual en Global
+	
 	var enemies = get_tree().get_nodes_in_group("enemy")
 	for e in enemies:
 		e.connect("killed", self, "checkIfAllEnemiesKilled") 
@@ -78,9 +81,10 @@ func _physics_process(delta):
 
 func checkIfAllEnemiesKilled():
 	var enemies = get_tree().get_nodes_in_group("enemy").size()
-	if (enemies == 0):
-		if (get_parent().name == "Main"):
+	if enemies == 0:
+		if get_parent().name == "Main":
 			deleteAllBullets()
+			Global.desbloquear_nivel(Global.nivel_actual + 1)  # Desbloquea el siguiente nivel
 			var nextLevel_timer = Timer.new()
 			nextLevel_timer.wait_time = 2
 			nextLevel_timer.autostart = true

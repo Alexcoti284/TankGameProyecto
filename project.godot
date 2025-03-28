@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="TankGameProject"
-run/main_scene="res://Escenas/Main.tscn"
+run/main_scene="res://Gui/LevelSelected.tscn"
 config/icon="res://icon.png"
 
 [audio]

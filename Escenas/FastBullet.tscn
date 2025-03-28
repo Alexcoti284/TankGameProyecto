@@ -4,7 +4,7 @@
 [ext_resource path="res://Sprites/fastBullet.png" type="Texture" id=2]
 
 [node name="BalaRapida" instance=ExtResource( 1 )]
-speed = 300.0
+speed = 240.0
 maxRebounds = 0
 
 [node name="Sprite" parent="." index="0"]

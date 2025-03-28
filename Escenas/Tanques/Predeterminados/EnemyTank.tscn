@@ -8,15 +8,6 @@ show_behind_parent = true
 script = ExtResource( 2 )
 bulletsPerSecond = 0.5
 
-[node name="CollisionShape2D" parent="." index="0"]
-disabled = false
-
-[node name="Body" parent="." index="1"]
-frame = 0
-
-[node name="Diagonal_collision" parent="." index="3"]
-disabled = true
-
 [node name="ShootingTimer" type="Timer" parent="." index="5"]
 autostart = true
 
