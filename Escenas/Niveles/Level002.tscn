@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Escenas/Tanques/GrayTank.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Escenas/Niveles/Level.tscn" type="PackedScene" id=2]
+
+[node name="Level" instance=ExtResource( 2 )]
+
+[node name="GrayTank" parent="." index="3" instance=ExtResource( 1 )]
+position = Vector2( 299, 130 )
