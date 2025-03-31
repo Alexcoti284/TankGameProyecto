@@ -20,21 +20,27 @@ func _ready():
 		levels.append(loadedLevel)
 		level = levelsdir.get_next()
 
-	# Conectar eventos
-	var error = AudioManager.connect("intro_finished", self, "unpause")
-	if error != OK:
-		print("❌ Error al conectar la señal 'intro_finished': ", error)
+	# Asegurar conexión de la señal
+	if not AudioManager.is_connected("intro_finished", self, "unpause"):
+		AudioManager.connect("intro_finished", self, "unpause")
 
-
-
-	# Si `Global.nivel_actual` está definido, cargar ese nivel
+	# Determinar el índice del nivel actual
 	if Global.nivel_actual > 0:
 		currentLevelIndex = Global.nivel_actual - 1 # Ajustar índice (de 1 a 0-indexado)
 	else:
 		currentLevelIndex = 0 # Si no, empezar desde el primer nivel
 
+	# Iniciar la música de introducción solo si es la primera vez
+	if Global.nivel_actual == 0:
+		print("Reproduciendo intro...")  # DEBUG
+		AudioManager.startBGMusic(AudioManager.TRACKS.INTRO)
+	else:
+		print("Saltando intro, cargando nivel directamente...")  # DEBUG
+		unpause()  # Evita que se quede en pausa si no hay intro
+
 	# Cargar el nivel seleccionado o el primer nivel
-	nextLevel()
+	_addCurrentLevel()
+
 
 func nextLevel():
 	currentLevelIndex += 1

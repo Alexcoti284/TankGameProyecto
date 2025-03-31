@@ -45,18 +45,11 @@ func connect_level_selected_to_level_box():
 
 func change_to_scene(level_num: int):
 	Global.nivel_actual = level_num
-	get_tree().change_scene("res://Escenas/Main.tscn")
-	
-	var level_str = "Level" + str(level_num).pad_zeros(3)
-	var next_level = "res://Escenas/Niveles/" + level_str + ".tscn"
-	var file = File.new()
-	if file.file_exists(next_level):
-		Global.nivel_actual = level_num
-		var error = get_tree().change_scene(next_level)
-		if error != OK:
-			print("Error al cambiar de escena: ", error)
-	else:
-		print("Level scene not found: ", next_level)
+	var error = get_tree().change_scene("res://Escenas/Main.tscn")
+	if error != OK:
+		print("Error al cambiar a Main.tscn: ", error)
+
+
 
 func _on_back_button_pressed():
 	if current_grid > 1 and not is_animating:

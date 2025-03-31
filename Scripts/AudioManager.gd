@@ -44,7 +44,7 @@ func _on_stream_finished(stream):
 
 func play(sound):
 	queue.append(sound)
-			
+
 func startBGMusic(track):
 	match(track):
 		TRACKS.INTRO:
@@ -57,13 +57,13 @@ func startBGMusic(track):
 			$BGMusic.volume_db = -5
 			$BGMusic.play()
 		TRACKS.WIN:
-			if ($BGMusic.stream != preload("res://SFX/lose.wav")): # We don't want this to play when we already lost and the lose sfx is playing
+			if ($BGMusic.stream != preload("res://SFX/lose.wav")):
 				$BGMusic.stream = preload("res://SFX/win.wav")
 				$BGMusic.volume_db = -5
 				$BGMusic.play()
 				outroPlaying = true
 		TRACKS.LOSE:
-			if ($BGMusic.stream != preload("res://SFX/win.wav")): # We don't want this to play when we already won and the win sfx is playing
+			if ($BGMusic.stream != preload("res://SFX/win.wav")):
 				$BGMusic.stream = preload("res://SFX/lose.wav")
 				$BGMusic.volume_db = -5
 				$BGMusic.play()
@@ -78,54 +78,54 @@ func _process(_delta):
 	# Play a queued sound if any players are available.
 	if not queue.empty() and not available.empty():
 		var sound = queue.pop_front()
+		var player = available.pop_front()
+		
 		match(sound):
 			SOUNDS.SMOKE:
-				available[0].stream = preload("res://SFX/smoke.wav")
-				available[0].volume_db = -15
+				player.stream = preload("res://SFX/smoke.wav")
+				player.volume_db = -15
 			SOUNDS.SHOT:
-				available[0].stream = preload("res://SFX/shot.wav")
-				available[0].volume_db = -10
+				player.stream = preload("res://SFX/shot.wav")
+				player.volume_db = -10
 			SOUNDS.BOUNCE:
-				available[0].stream = preload("res://SFX/bounce.wav")
-				available[0].volume_db = -2
+				player.stream = preload("res://SFX/bounce.wav")
+				player.volume_db = -2
 			SOUNDS.TANK_MOVE:
-				available[0].stream = preload("res://SFX/tank_move.wav")
-				available[0].volume_db = -10
+				player.stream = preload("res://SFX/tank_move.wav")
+				player.volume_db = -10
 			SOUNDS.MINE:
-				available[0].stream = preload("res://SFX/mine.wav")
-				available[0].volume_db = -10
+				player.stream = preload("res://SFX/mine.wav")
+				player.volume_db = -10
 			SOUNDS.BLAST:
-				available[0].stream = preload("res://SFX/bomb.wav")
-				available[0].stream.loop_mode = 0
-				available[0].volume_db = -15
+				player.stream = preload("res://SFX/bomb.wav")
+				player.stream.loop_mode = 0
+				player.volume_db = -15
 			SOUNDS.TANK_DEATH:
-				available[0].stream = preload("res://SFX/tank_death.wav")
-				available[0].stream.loop_mode = 0
-				available[0].volume_db = -15
+				player.stream = preload("res://SFX/tank_death.wav")
+				player.stream.loop_mode = 0
+				player.volume_db = -15
 			SOUNDS.BULLET_SHOT:
-				available[0].stream = preload("res://SFX/bullet_shot.wav")
-				available[0].stream.loop_mode = 0
-				available[0].volume_db = -15
+				player.stream = preload("res://SFX/bullet_shot.wav")
+				player.stream.loop_mode = 0
+				player.volume_db = -15
 			SOUNDS.MINE_CANT:
-				available[0].stream = preload("res://SFX/mine_cant.wav")
-				available[0].stream.loop_mode = 0
-				available[0].volume_db = -5
+				player.stream = preload("res://SFX/mine_cant.wav")
+				player.stream.loop_mode = 0
+				player.volume_db = -5
 			SOUNDS.TANK_KILL:
-				available[0].stream = preload("res://SFX/tank_kill.wav")
-				available[0].stream.loop_mode = 0
-				available[0].volume_db = -6
-		available[0].play()
-		available.pop_front()
+				player.stream = preload("res://SFX/tank_kill.wav")
+				player.stream.loop_mode = 0
+				player.volume_db = -6
+		
+		player.play()
 
 func _on_BGMusic_finished():
-	if (introPlaying):
+	if introPlaying:
+		print("Intro terminada, emitiendo señal...")  # DEBUG
 		emit_signal("intro_finished")
 		introPlaying = false
 		startBGMusic(TRACKS.MAIN)
+	elif outroPlaying:
+		outroPlaying = false
 	else:
-		if (outroPlaying):
-			outroPlaying = false
-		else:
-			startBGMusic(TRACKS.INTRO)
-
-
+		startBGMusic(TRACKS.INTRO)
