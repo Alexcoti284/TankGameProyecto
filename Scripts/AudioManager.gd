@@ -8,6 +8,7 @@ var outroPlaying = false
 
 signal intro_finished
 
+
 enum SOUNDS {
 	SMOKE,
 	SHOT,
@@ -120,12 +121,13 @@ func _process(_delta):
 		player.play()
 
 func _on_BGMusic_finished():
+	print("BGMusic terminada. introPlaying =", introPlaying)
 	if introPlaying:
-		print("Intro terminada, emitiendo señal...")  # DEBUG
-		emit_signal("intro_finished")
 		introPlaying = false
+		emit_signal("intro_finished")
 		startBGMusic(TRACKS.MAIN)
 	elif outroPlaying:
 		outroPlaying = false
 	else:
-		startBGMusic(TRACKS.INTRO)
+		# Si no es intro ni outro, reiniciar música normal
+		startBGMusic(TRACKS.MAIN)

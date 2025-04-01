@@ -92,6 +92,17 @@ func shoot():
 	get_parent().add_child(bullet)
 	liveBullets.append(bullet)
 
+	# Pausar el movimiento del tanque por 0.1 segundos
+	var original_speed = speed
+	speed = 0
+	yield(get_tree().create_timer(0.1), "timeout")
+
+	# Verificar si el tanque aún existe antes de restaurar la velocidad
+	if is_instance_valid(self):
+		speed = original_speed
+
+
+
 func tryToShoot():
 	if ($Cannon.get_overlapping_bodies().empty()): # Validate cannon isn't within a wall
 		if (Utils.getNumberOfActiveObjects(liveBullets) < maxBullets):
