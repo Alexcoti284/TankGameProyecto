@@ -9,6 +9,9 @@ var is_animating = false
 
 	
 func _ready():
+	get_tree().paused = false
+
+	
 	yield(get_tree(), "idle_frame")  # Espera un frame para obtener dimensiones reales
 	num_grids = grid_container.get_child_count()
 	grid_width = grid_container.get_child(0).rect_size.x
@@ -29,10 +32,14 @@ func setup_level_box():
 			var box_index = box.get_index()
 			var level_num = box_index + 1 + grid.get_child_count() * grid_index
 			box.level_num = level_num
-
-			var is_unlocked = level_num == 1
+			
+			# Verificar si el nivel está desbloqueado
+			var is_unlocked = false
 			if level_num - 1 < Global.niveles_desbloqueados.size():
 				is_unlocked = Global.niveles_desbloqueados[level_num - 1]
+			else:
+				is_unlocked = (level_num == 1) # El primer nivel siempre desbloqueado
+				
 			box.locked = !is_unlocked
 
 func connect_level_selected_to_level_box():

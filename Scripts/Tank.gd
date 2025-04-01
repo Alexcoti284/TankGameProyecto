@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 export (int) var speed = 40
-export (float) var rotation_speed = 5.0
+export (float) var rotation_speed = 7.5
 
 var currentDirection: Vector2
 var tankRotation = 0.0
@@ -14,8 +14,7 @@ var liveMines = []
 
 const Mine = preload("res://Escenas/Mine.tscn")
 export var Bullet = preload("res://Escenas/Bullet.tscn")
-var bulletInstance = Bullet.instance() # A bullet instance to acces some of ithe Bullet class properties
-# Precargar tu efecto de humo existente (ajusta la ruta según donde esté guardada tu escena)
+var bulletInstance = Bullet.instance() 
 const SmokeEffect = preload("res://Escenas/Efectos/Smoke.tscn")
 
 var directions = {

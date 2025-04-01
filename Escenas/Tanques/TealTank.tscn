@@ -7,7 +7,6 @@
 [ext_resource path="res://Colisiones/HitboxHorizontal.tres" type="Shape2D" id=5]
 
 [node name="TealTank" instance=ExtResource( 1 )]
-speed = 20
 Bullet = ExtResource( 2 )
 
 [node name="CollisionShape2D" parent="." index="0"]

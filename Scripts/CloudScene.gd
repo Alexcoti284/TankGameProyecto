@@ -1,7 +1,7 @@
 # CloudScene.gd
 extends Node2D
 
-var cloud_scene = preload("res://Escenas/Cloud.tscn")
+var cloud_scene = preload("res://Escenas/Gui/Cloud.tscn")
 onready var cloud_container = $ParallaxBackground/CloudLayer/CloudContainer
 onready var cloud_timer = $CloudTimer
 

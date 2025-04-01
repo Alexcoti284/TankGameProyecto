@@ -64,6 +64,16 @@ func _addCurrentLevel():
 	currentLevel.connect("enemies_killed", self, 'nextLevel')
 	currentLevel.connect("player_died", self, 'restartLevel')
 	add_child(currentLevel)
+	
+	# Asegurarse de que nivel_actual se actualice correctamente
+	print("Nivel antes de actualizar: ", Global.nivel_actual)
+	print("Índice del nivel actual: ", currentLevelIndex)
+	
+	# Si estamos cargando desde el selector, Global.nivel_actual ya debería ser correcto
+	# Si estamos pasando al siguiente nivel, actualizar Global.nivel_actual
+	if currentLevelIndex + 1 != Global.nivel_actual:
+		Global.nivel_actual = currentLevelIndex + 1
+		print("Nivel actualizado a: ", Global.nivel_actual)
 
 func unpause():
 	print("Despausando el juego")
