@@ -15,7 +15,9 @@ var liveMines = []
 const Mine = preload("res://Escenas/Mine.tscn")
 export var Bullet = preload("res://Escenas/Bullet.tscn")
 var bulletInstance = Bullet.instance() # A bullet instance to acces some of ithe Bullet class properties
-# TODO CHANGE FOR GAST BULLET ON GREENT TANK AND OTHERS
+# Precargar tu efecto de humo existente (ajusta la ruta según donde esté guardada tu escena)
+const SmokeEffect = preload("res://Escenas/Efectos/Smoke.tscn")
+
 var directions = {
 	"UP": Vector2(0,-1),
 	"UP_RIGHT": Vector2(1,-1),
@@ -91,18 +93,37 @@ func shoot():
 	bullet.setup(getCannonTipPosition(), Vector2(1,0).rotated($Cannon.rotation))
 	get_parent().add_child(bullet)
 	liveBullets.append(bullet)
+	
+	# Crear efecto de humo usando tu escena existente (más pequeño y sin sonido)
+	create_smoke_effect()
 
 	# Pausar el movimiento del tanque por 0.1 segundos
 	var original_speed = speed
 	speed = 0
-	yield(get_tree().create_timer(0.1), "timeout")
+	
+	# Guardar una referencia débil al timer para evitar problemas si el tanque se destruye
+	var timer = get_tree().create_timer(0.1)
+	# Conectar la señal timeout directamente en lugar de usar yield
+	timer.connect("timeout", self, "_on_shoot_timer_timeout", [original_speed])
 
-	# Verificar si el tanque aún existe antes de restaurar la velocidad
+# Nueva función para manejar el timeout del timer de disparo
+func _on_shoot_timer_timeout(original_speed):
+	# Solo restaurar la velocidad si el tanque aún existe
 	if is_instance_valid(self):
 		speed = original_speed
 
-
-
+# Función para crear el efecto de humo (más pequeño y sin sonido)
+func create_smoke_effect():
+	var smoke = SmokeEffect.instance()
+	smoke.position = getCannonTipPosition()
+	smoke.rotation = $Cannon.rotation
+	
+	# Configurar para que sea más pequeño y sin sonido
+	smoke.withSound = false  # Desactivar el sonido
+	smoke.scale = Vector2(0.5, 0.5)  # Reducir tamaño a la mitad (ajusta según necesites)
+	
+	get_parent().add_child(smoke)
+	
 func tryToShoot():
 	if ($Cannon.get_overlapping_bodies().empty()): # Validate cannon isn't within a wall
 		if (Utils.getNumberOfActiveObjects(liveBullets) < maxBullets):
