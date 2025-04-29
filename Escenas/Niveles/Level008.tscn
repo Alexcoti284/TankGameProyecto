@@ -10,17 +10,22 @@ tile_data = PoolIntArray( 65537, 536870927, 0, 65538, 536870926, 0, 65539, 53687
 [node name="PlayerTank" parent="." index="0"]
 position = Vector2( 46, 126 )
 
-[node name="YellowTank3" parent="." index="3" instance=ExtResource( 2 )]
-position = Vector2( 262, 136 )
+[node name="YellowTank3" parent="." index="1" instance=ExtResource( 2 )]
+position = Vector2( 224, 137 )
+collision_mask = 3
 
-[node name="YellowTank2" parent="." index="4" instance=ExtResource( 2 )]
-position = Vector2( 303, 57 )
+[node name="YellowTank2" parent="." index="2" instance=ExtResource( 2 )]
+position = Vector2( 306, 55 )
+collision_mask = 3
 
-[node name="YellowTank" parent="." index="5" instance=ExtResource( 2 )]
-position = Vector2( 306, 205 )
+[node name="YellowTank" parent="." index="3" instance=ExtResource( 2 )]
+position = Vector2( 306, 215 )
+collision_mask = 3
 
-[node name="TealTank" parent="." index="6" instance=ExtResource( 3 )]
+[node name="TealTank" parent="." index="4" instance=ExtResource( 3 )]
 position = Vector2( 433, 76 )
+collision_mask = 3
 
-[node name="TealTank2" parent="." index="7" instance=ExtResource( 3 )]
-position = Vector2( 434, 181 )
+[node name="TealTank2" parent="." index="5" instance=ExtResource( 3 )]
+position = Vector2( 433, 196 )
+collision_mask = 3

@@ -30,6 +30,7 @@ default_bus_layout="res://Sprites/default_bus_layout.tres"
 
 [autoload]
 
+VhsOverlay="*res://Escenas/VHSOverlay.tscn"
 Global="*res://Scripts/Global.gd"
 Utils="*res://Scripts/Utils.gd"
 AudioManager="*res://Escenas/AudioManager.tscn"
@@ -48,6 +49,8 @@ window/stretch/aspect="keep"
 [global]
 
 gpu=false
+Overlay=true
+coli=false
 
 [input]
 
@@ -98,7 +101,12 @@ menu={
 
 [layer_names]
 
-2d_physics/layer_2="Special"
+2d_physics/layer_1="paredes"
+2d_physics/layer_2="tanques"
+2d_physics/layer_3="balas"
+2d_physics/layer_4="minas"
+2d_physics/layer_5="explosion"
+2d_physics/layer_6="hoyos"
 
 [physics]
 

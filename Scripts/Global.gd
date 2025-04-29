@@ -3,7 +3,7 @@ extends Node
 const MAX_INT = 9223372036854775807
 const SAVE_FILE = "user://game_save.dat"  
 
-
+var shader_enabled = true
 var p1Position: Vector2
 var nivel_actual = 1
 var niveles_desbloqueados = []
@@ -32,7 +32,6 @@ func desbloquear_nivel(nivel: int):
 	guardar_datos()
 	print("Nivel desbloqueado: ", nivel)
 	print("Estado de niveles: ", niveles_desbloqueados)
-
 	
 func guardar_datos():
 	var save_file = File.new()
@@ -42,7 +41,8 @@ func guardar_datos():
 		return false
 	
 	var save_data = {
-		"niveles_desbloqueados": niveles_desbloqueados
+		"niveles_desbloqueados": niveles_desbloqueados,
+		"shader_enabled": shader_enabled  # Guarda también el estado del shader
 	}
 	
 	save_file.store_var(save_data)
@@ -64,9 +64,16 @@ func cargar_datos():
 	var save_data = save_file.get_var()
 	save_file.close()
 	
-	if save_data and save_data.has("niveles_desbloqueados"):
-		niveles_desbloqueados = save_data["niveles_desbloqueados"]
+	if save_data:
+		if save_data.has("niveles_desbloqueados"):
+			niveles_desbloqueados = save_data["niveles_desbloqueados"]
+		
+		# Carga el estado del shader si existe
+		if save_data.has("shader_enabled"):
+			shader_enabled = save_data["shader_enabled"]
+			
 		print("Datos cargados correctamente: ", niveles_desbloqueados)
+		print("Estado del shader: ", shader_enabled)
 		return true
 	else:
 		print("Formato de archivo incorrecto")
@@ -77,6 +84,7 @@ func _process(_delta):
 		get_tree().quit()
 	
 	if Input.is_action_just_pressed("menu"):
+		AudioManager.pauseBGMusic()
 		get_tree().paused = false
 		get_tree().change_scene("res://Escenas/Gui/LevelSelected.tscn")
 
@@ -86,3 +94,6 @@ func _notification(what):
 		guardar_datos()
 		get_tree().quit()
 
+func toggle_shader():
+	shader_enabled = !shader_enabled
+	print("Shader toggled: ", shader_enabled)

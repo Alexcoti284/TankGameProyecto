@@ -14,9 +14,12 @@ position = Vector2( 58, 56 )
 
 [node name="TealTank2" parent="." index="4" instance=ExtResource( 2 )]
 position = Vector2( 412, 70 )
+collision_mask = 23
 
 [node name="TealTank3" parent="." index="5" instance=ExtResource( 2 )]
 position = Vector2( 418, 218 )
+collision_mask = 23
 
 [node name="TealTank4" parent="." index="6" instance=ExtResource( 2 )]
 position = Vector2( 63, 120 )
+collision_mask = 23

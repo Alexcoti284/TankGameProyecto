@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=2]
+[gd_scene load_steps=63 format=2]
 
 [ext_resource path="res://Scripts/SueloRandom.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Destruct.png" type="Texture" id=2]
@@ -7,7 +7,6 @@
 [ext_resource path="res://Escenas/Tanques/PlayerTank.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scripts/Level.gd" type="Script" id=6]
 [ext_resource path="res://Colisiones/Bloques/ParedesHorizontal.tres" type="Shape2D" id=7]
-[ext_resource path="res://Scripts/Hole.gd" type="Script" id=8]
 [ext_resource path="res://Colisiones/Bloques/ParedNormal.tres" type="Shape2D" id=9]
 [ext_resource path="res://Sprites/blackHole.png" type="Texture" id=10]
 [ext_resource path="res://Sprites/Alfombra.png" type="Texture" id=11]
@@ -1282,20 +1281,17 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 13, 0, 13 )
 3/z_index = 0
 
 [node name="Level" type="TileMap" groups=["walls"]]
-z_index = 1
 tile_set = SubResource( 1 )
 cell_size = Vector2( 16, 16 )
 cell_tile_origin = 1
 cell_y_sort = true
-collision_mask = 3
+collision_mask = 6
 format = 1
 tile_data = PoolIntArray( 65537, 536870927, 0, 65538, 536870926, 0, 65539, 536870926, 0, 65540, 22, 0, 65541, 536870926, 0, 65542, 536870926, 0, 65543, 536870926, 0, 65544, 536870926, 0, 65545, 536870926, 0, 65546, 536870926, 0, 65547, 536870926, 0, 65548, 536870926, 0, 65549, 536870926, 0, 65550, 53, 0, 65551, 536870926, 0, 65552, 536870926, 0, 65553, 536870926, 0, 65554, 536870926, 0, 65555, 536870926, 0, 65556, 536870926, 0, 65557, 536870926, 0, 65558, 536870926, 0, 65559, 536870926, 0, 65560, 536870926, 0, 65561, 536870926, 0, 65562, 536870926, 0, 65563, 536870926, 0, 65564, 536870925, 0, 131073, 536870920, 0, 131100, 536870920, 0, 196609, 536870920, 0, 196636, 536870920, 0, 262145, 536870920, 0, 262172, 536870920, 0, 327681, 536870920, 0, 327708, 536870920, 0, 393217, 536870920, 0, 393244, 536870920, 0, 458753, 536870920, 0, 458780, 536870920, 0, 524289, 536870920, 0, 524316, 536870920, 0, 589825, 536870920, 0, 589852, 536870920, 0, 655361, 536870920, 0, 655388, 536870920, 0, 720897, 536870920, 0, 720924, 536870920, 0, 786433, 536870920, 0, 786460, 536870920, 0, 851969, 536870920, 0, 851996, 536870920, 0, 917505, 536870920, 0, 917532, 536870920, 0, 983041, 536870922, 0, 983042, 536870926, 0, 983043, 536870926, 0, 983044, 536870926, 0, 983045, 536870926, 0, 983046, 536870926, 0, 983047, 536870926, 0, 983048, 536870926, 0, 983049, 37, 0, 983050, 536870926, 0, 983051, 536870926, 0, 983052, 536870926, 0, 983053, 536870926, 0, 983054, 536870926, 0, 983055, 536870926, 0, 983056, 536870926, 0, 983057, 536870926, 0, 983058, 536870926, 0, 983059, 536870926, 0, 983060, 536870926, 0, 983061, 22, 0, 983062, 536870926, 0, 983063, 536870926, 0, 983064, 536870926, 0, 983065, 536870926, 0, 983066, 536870926, 0, 983067, 536870926, 0, 983068, 536870924, 0 )
 script = ExtResource( 6 )
 
 [node name="PlayerTank" parent="." groups=["Tank", "player"] instance=ExtResource( 5 )]
 position = Vector2( 72, 138 )
-collision_layer = 1
-collision_mask = 2
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -1
@@ -1315,9 +1311,8 @@ script = ExtResource( 1 )
 [node name="Hole" type="TileMap" parent="." groups=["pass_through"]]
 tile_set = SubResource( 64 )
 cell_size = Vector2( 16, 16 )
-collision_layer = 3
-collision_mask = 7
+collision_layer = 32
+collision_mask = 2
 format = 1
-script = ExtResource( 8 )
 
 [connection signal="player_dies" from="PlayerTank" to="." method="_on_PlayerTank_player_dies"]

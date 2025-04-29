@@ -131,3 +131,8 @@ func _on_BGMusic_finished():
 	else:
 		# Si no es intro ni outro, reiniciar música normal
 		startBGMusic(TRACKS.MAIN)
+
+func pauseBGMusic():
+	if $BGMusic.playing:
+		$BGMusic.stream_paused = true
+

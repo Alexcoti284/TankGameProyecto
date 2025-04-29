@@ -31,4 +31,4 @@ position = Vector2( 240, 136 )
 motion_scale = Vector2( 0.7, 0 )
 
 [node name="CloudContainer" type="Node2D" parent="ParallaxBackground/CloudLayer"]
-position = Vector2( 0, 12 )
+position = Vector2( 0, 13 )

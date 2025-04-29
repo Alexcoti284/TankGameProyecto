@@ -8,6 +8,9 @@ show_behind_parent = true
 script = ExtResource( 2 )
 bulletsPerSecond = 0.5
 
+[node name="Diagonal_collision" parent="." index="3"]
+scale = Vector2( 1, 1 )
+
 [node name="ShootingTimer" type="Timer" parent="." index="5"]
 autostart = true
 

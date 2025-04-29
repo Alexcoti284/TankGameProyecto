@@ -9,6 +9,7 @@ tile_data = PoolIntArray( 65537, 536870927, 0, 65538, 536870926, 0, 65539, 53687
 
 [node name="Hole" parent="." index="2"]
 tile_data = PoolIntArray( 327693, 0, 0, 393229, 0, 0, 458765, 0, 0, 524301, 3, 0, 524302, 1, 0, 524303, 2, 0, 589839, 0, 0, 655375, 0, 0, 720911, 0, 0 )
+script = null
 
 [node name="GrayTank" parent="." index="3" instance=ExtResource( 2 )]
 position = Vector2( 388, 49 )

@@ -1,6 +1,6 @@
 extends Control
 
-onready var grid_container = $LevelMenu/ClipControl/GridContainer
+onready var grid_container = $ClipControl/GridContainer
 var num_grids = 1
 var current_grid = 1
 var grid_width = 548
@@ -9,7 +9,7 @@ var is_animating = false
 
 	
 func _ready():
-	get_tree().paused = false
+	
 
 	
 	yield(get_tree(), "idle_frame")  # Espera un frame para obtener dimensiones reales
@@ -19,9 +19,9 @@ func _ready():
 
 	setup_level_box()
 	connect_level_selected_to_level_box()
-	$LevelMenu/ClipControl.rect_clip_content = true
+	$ClipControl.rect_clip_content = true
 
-	$LevelMenu/ClipControl/GridContainer.rect_min_size.x = (grid_width + grid_spacing) * num_grids
+	$ClipControl/GridContainer.rect_min_size.x = (grid_width + grid_spacing) * num_grids
 
 	update_button_visibility()
 
@@ -71,10 +71,10 @@ func _on_next_button_pressed():
 		update_button_visibility()
 
 func update_button_visibility():
-	$LevelMenu/BackButton.disabled = (current_grid == 1)
-	$LevelMenu/NextButton.disabled = (current_grid == num_grids)
-	$LevelMenu/BackButton.raise()
-	$LevelMenu/NextButton.raise()
+	$ArrowRight/BackButton.disabled = (current_grid == 1)
+	$ArrowLeft/NextButton.disabled = (current_grid == num_grids)
+	$ArrowRight/BackButton.raise()
+	$ArrowLeft/NextButton.raise()
 
 func animate_grid_position(final_value):
 	if is_animating:
