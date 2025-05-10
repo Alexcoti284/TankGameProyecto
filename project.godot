@@ -35,6 +35,7 @@ Global="*res://Scripts/Global.gd"
 Utils="*res://Scripts/Utils.gd"
 AudioManager="*res://Escenas/AudioManager.tscn"
 Debug="*res://Scripts/Debug.gd"
+TransitionManager="*res://Scripts/TransitionManager.gd"
 
 [display]
 

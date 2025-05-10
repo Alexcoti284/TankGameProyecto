@@ -9,10 +9,15 @@ var is_animating = false
 
 	
 func _ready():
+	# Informar a Global que estamos en el menú
+	if Global:
+		Global.set_in_menu(true)
+	
+	# Reproducir la música del menú
+	if AudioManager and AudioManager.current_track != AudioManager.TRACKS.MENU:
+		AudioManager.startBGMusic(AudioManager.TRACKS.MENU)
 	
 
-	
-	yield(get_tree(), "idle_frame")  # Espera un frame para obtener dimensiones reales
 	num_grids = grid_container.get_child_count()
 	grid_width = grid_container.get_child(0).rect_size.x
 	grid_spacing = grid_container.get_constant("separation")  # Obtener el espacio entre grids
@@ -24,6 +29,21 @@ func _ready():
 	$ClipControl/GridContainer.rect_min_size.x = (grid_width + grid_spacing) * num_grids
 
 	update_button_visibility()
+	
+	# Asegurarse de que el juego no está pausado en el selector de niveles
+	if get_tree().paused:
+		get_tree().paused = false
+		print("Juego despausado en el selector de niveles")
+	
+	# Asegurarse de que el menú no está bloqueado
+	if Global:
+		Global.set_menu_blocked(false)
+		print("Menú desbloqueado en selector de niveles")
+
+func _exit_tree():
+	# Al salir del menú, actualizar el estado
+	if Global:
+		Global.set_in_menu(false)
 
 func setup_level_box():
 	for grid in grid_container.get_children():
@@ -48,15 +68,12 @@ func connect_level_selected_to_level_box():
 			if not box.is_connected("level_selected", self, "change_to_scene"):
 				box.connect("level_selected", self, "change_to_scene")
 
-
-
 func change_to_scene(level_num: int):
+	# Actualizar nivel actual en Global
 	Global.nivel_actual = level_num
-	var error = get_tree().change_scene("res://Escenas/Main.tscn")
-	if error != OK:
-		print("Error al cambiar a Main.tscn: ", error)
-
-
+	
+	# Iniciar transición con animación (sin números)
+	TransitionManager.change_level(0, level_num, false)
 
 func _on_back_button_pressed():
 	if current_grid > 1 and not is_animating:

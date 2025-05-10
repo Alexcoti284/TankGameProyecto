@@ -7,6 +7,8 @@ var shader_enabled = true
 var p1Position: Vector2
 var nivel_actual = 1
 var niveles_desbloqueados = []
+var bloquear_menu = false # Variable para bloquear el acceso al menú
+var in_menu = false # Variable para saber si estamos en el menú
 
 func _ready():
 	pause_mode = Node.PAUSE_MODE_PROCESS
@@ -19,6 +21,14 @@ func _ready():
 		niveles_desbloqueados.append(true)
 	else:
 		niveles_desbloqueados[0] = true
+		
+	# Conectar con AudioManager para saber cuándo se puede acceder al menú
+	if not AudioManager.is_connected("intro_finished", self, "_on_intro_finished"):
+		AudioManager.connect("intro_finished", self, "_on_intro_finished")
+	
+func _on_intro_finished():
+	bloquear_menu = false
+	print("Menú desbloqueado")
 
 func desbloquear_nivel(nivel: int):
 	# Asegurar que el array tiene suficiente tamaño
@@ -84,9 +94,18 @@ func _process(_delta):
 		get_tree().quit()
 	
 	if Input.is_action_just_pressed("menu"):
-		AudioManager.pauseBGMusic()
-		get_tree().paused = false
-		get_tree().change_scene("res://Escenas/Gui/LevelSelected.tscn")
+		if in_menu:
+			# Si ya estamos en el menú, no hacer nada
+			print("Ya estamos en el menú, ignorando acción de menú")
+			return
+			
+		if not bloquear_menu: # Solo ir al menú si no está bloqueado
+			AudioManager.pauseBGMusic()
+			get_tree().paused = false
+			# Usar TransitionManager para ir al menú con transición
+			TransitionManager.go_to_menu()
+		else:
+			print("Menú bloqueado mientras suena la intro")
 
 func _notification(what):
 	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
@@ -97,3 +116,13 @@ func _notification(what):
 func toggle_shader():
 	shader_enabled = !shader_enabled
 	print("Shader toggled: ", shader_enabled)
+
+# Función para establecer el bloqueo del menú
+func set_menu_blocked(blocked: bool):
+	bloquear_menu = blocked
+	print("Menú bloqueado: ", bloquear_menu)
+
+# Función para establecer si estamos en el menú
+func set_in_menu(value: bool):
+	in_menu = value
+	print("En menú: ", in_menu)
