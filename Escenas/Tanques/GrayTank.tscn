@@ -19,6 +19,3 @@ scale = Vector2( 1, 1 )
 
 [node name="CannonSprite" parent="Cannon" index="0"]
 texture = ExtResource( 3 )
-
-[node name="CollisionShape2D" parent="Cannon" index="1"]
-z_index = 0

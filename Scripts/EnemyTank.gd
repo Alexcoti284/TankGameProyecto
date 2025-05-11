@@ -3,7 +3,8 @@ extends "res://Scripts/Tank.gd"
 var RayCastUtils = preload("res://Scripts/RayCastUtils.gd")
 
 var rotationDirection = 1
-var cannonRotSpeed = 1.5
+# Usamos export para que sea configurable desde el editor
+export var cannonRotSpeed = 1.5
 export var bulletsPerSecond = 0.5
 var rng = RandomNumberGenerator.new()
 var fireRate 

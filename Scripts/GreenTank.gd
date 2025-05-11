@@ -1,8 +1,5 @@
 extends "res://Scripts/StationaryTank.gd"
 
-# No redeclaramos variables que ya existen en la clase padre
-# Solo agregamos variables específicas para este tanque verde que no estén en StationaryTank.gd
-
 func _ready():
 	if Debug.SHOW_BULLET_RAYCASTS:
 		BULLET_RAYCAST_LIST = []
@@ -15,11 +12,12 @@ func _ready():
 	
 	# Si tienes un timer para controlar el disparo, configúralo aquí
 	if has_node("ShootingTimer"):
-		$ShootingTimer.wait_time = 1.0 / 0.5  # 0.5 disparos por segundo
+		$ShootingTimer.wait_time = 1.0 / 1.5  # 1.5 disparos por segundo
 		$ShootingTimer.start()
 
 func _physics_process(delta):
 	# Rota el cañón continuamente
+	cannonRotSpeed = 1
 	$Cannon.rotation += delta * rotationDirection * cannonRotSpeed
 	
 	if okToShoot:

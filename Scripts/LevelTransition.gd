@@ -18,7 +18,7 @@ export var restart_number_display_time = 0.3  # Tiempo reducido para mostrar nú
 # Variables internas
 var current_level = 0
 var next_level = 0
-var max_levels = 100
+var max_levels = 45
 var is_animating = false
 var waiting_for_level = false
 var next_number_visible = false  # Variable para rastrear si el segundo número está visible
@@ -66,6 +66,10 @@ func start_transition(from_level, to_level):
 	next_level = to_level
 	waiting_for_level = false
 	next_number_visible = false  # Reiniciamos el estado del segundo número
+	
+	# Informar a Global que hay una animación en curso
+	if Global:
+		Global.set_animation_in_progress(true)
 	
 	# Determinar si es un reinicio del mismo nivel
 	is_restart = (from_level == to_level && from_level > 0)
@@ -233,7 +237,7 @@ func _on_fade_in_completed():
 			print("Esperando señal level_loaded o timeout")
 			
 			# Tiempo de espera como fallback
-			var timeout = 3.0
+			var timeout = 0.5
 			if is_restart:
 				timeout = 1.5
 				
@@ -295,5 +299,10 @@ func _on_fade_out_completed():
 	next_number_visible = false
 
 	is_animating = false
+	
+	# Informar a Global que la animación ha terminado
+	if Global:
+		Global.set_animation_in_progress(false)
+		
 	print("Emitiendo señal de transición completada")
 	emit_signal("transition_completed")

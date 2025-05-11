@@ -7,7 +7,7 @@
 [node name="PlayerTank" instance=ExtResource( 1 )]
 pause_mode = 2
 script = ExtResource( 3 )
-rotation_speed = 4.0
+rotation_speed = 6.5
 maxBullets = 3
 maxMines = 2
 

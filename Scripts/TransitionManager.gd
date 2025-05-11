@@ -30,6 +30,10 @@ func change_level(from_level: int, to_level: int, show_numbers: bool = true, ani
 	transition_in_progress = true
 	level_is_ready = false  # Reiniciar estado del nivel
 	
+	# Informar a Global que hay una animación en curso
+	if Global:
+		Global.set_animation_in_progress(true)
+	
 	# Notificar a AudioManager sobre la transición
 	if AudioManager:
 		AudioManager.start_level_transition()
@@ -45,6 +49,8 @@ func change_level(from_level: int, to_level: int, show_numbers: bool = true, ani
 	var scene_tree = get_tree()
 	if scene_tree == null:
 		transition_in_progress = false
+		if Global:
+			Global.set_animation_in_progress(false)
 		if AudioManager:
 			AudioManager.end_level_transition()
 		return
@@ -92,6 +98,11 @@ func go_to_menu():
 	# No ir al menú si ya estamos en él
 	if get_tree().current_scene and get_tree().current_scene.name == "LevelSelected":
 		print("Ya estamos en el menú, ignorando solicitud")
+		return
+		
+	# Verificar si se permite acceder al menú (no animaciones en curso)
+	if Global and !Global.can_access_menu():
+		print("No se puede acceder al menú ahora: hay animaciones en curso")
 		return
 		
 	change_level(Global.nivel_actual, 0, false, false)  # Sin números para el menú
@@ -215,6 +226,10 @@ func _on_transition_completed():
 			
 	# Finalizar estado de transición
 	transition_in_progress = false
+	
+	# Informar a Global que la animación ha terminado
+	if Global:
+		Global.set_animation_in_progress(false)
 	
 	# Emitir señal para que otros scripts sepan que la transición completó
 	emit_signal("transition_completed")

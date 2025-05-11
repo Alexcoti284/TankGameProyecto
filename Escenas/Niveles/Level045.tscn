@@ -1,0 +1,59 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Escenas/Niveles/Level.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Escenas/Tanques/BlackTank.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Escenas/Tanques/BrownTank.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Escenas/Tanques/GreenTank.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Escenas/Tanques/WhiteTank.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Escenas/Tanques/YellowTank.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Escenas/Tanques/RedTank.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Escenas/Tanques/GrayTank.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Escenas/Tanques/PurpleTank.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Escenas/Tanques/TealTank.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Escenas/Mine.tscn" type="PackedScene" id=11]
+
+[node name="Level" instance=ExtResource( 1 )]
+tile_data = PoolIntArray( 65537, 536870927, 0, 65538, 536870926, 0, 65539, 536870926, 0, 65540, 22, 0, 65541, 536870926, 0, 65542, 536870926, 0, 65543, 536870926, 0, 65544, 536870926, 0, 65545, 536870926, 0, 65546, 536870926, 0, 65547, 536870926, 0, 65548, 536870926, 0, 65549, 536870926, 0, 65550, 53, 0, 65551, 536870926, 0, 65552, 536870926, 0, 65553, 536870926, 0, 65554, 536870926, 0, 65555, 536870926, 0, 65556, 536870926, 0, 65557, 536870926, 0, 65558, 536870926, 0, 65559, 536870926, 0, 65560, 536870926, 0, 65561, 536870926, 0, 65562, 536870926, 0, 65563, 536870926, 0, 65564, 536870925, 0, 131073, 536870920, 0, 131100, 536870920, 0, 196609, 536870920, 0, 196636, 536870920, 0, 262145, 536870920, 0, 262158, 54, 0, 262172, 536870920, 0, 327681, 536870920, 0, 327694, 8, 0, 327708, 536870920, 0, 393217, 536870920, 0, 393230, 9, 0, 393244, 536870920, 0, 458753, 536870920, 0, 458780, 536870920, 0, 524289, 536870920, 0, 524316, 536870920, 0, 589825, 536870920, 0, 589830, 536870916, 0, 589831, 536870926, 0, 589832, 536870926, 0, 589833, 536870926, 0, 589834, 536870918, 0, 589835, 536870945, 0, 589836, 536870945, 0, 589837, 536870916, 0, 589838, 536870926, 0, 589839, 536870918, 0, 589840, 536870945, 0, 589841, 536870945, 0, 589842, 536870916, 0, 589843, 536870926, 0, 589844, 536870926, 0, 589845, 536870926, 0, 589846, 536870915, 0, 589847, 536870926, 0, 589848, 536870926, 0, 589849, 536870926, 0, 589850, 536870926, 0, 589851, 536870926, 0, 589852, 536870914, 0, 655361, 536870920, 0, 655382, 536870920, 0, 655388, 536870920, 0, 720897, 536870920, 0, 720918, 1610612791, 0, 720924, 536870920, 0, 786433, 536870912, 0, 786434, 14, 0, 786435, 14, 0, 786436, 15, 0, 786443, 6, 0, 786444, 14, 0, 786445, 14, 0, 786446, 14, 0, 786447, 4, 0, 786454, 536870944, 0, 786460, 536870920, 0, 851969, 536870920, 0, 851972, 8, 0, 851990, 536870944, 0, 851996, 536870920, 0, 917505, 536870920, 0, 917508, 8, 0, 917526, 536870967, 0, 917532, 536870920, 0, 983041, 536870922, 0, 983042, 536870926, 0, 983043, 536870926, 0, 983044, 21, 0, 983045, 536870926, 0, 983046, 536870926, 0, 983047, 536870926, 0, 983048, 536870926, 0, 983049, 37, 0, 983050, 536870926, 0, 983051, 536870926, 0, 983052, 536870926, 0, 983053, 536870926, 0, 983054, 536870926, 0, 983055, 536870926, 0, 983056, 536870926, 0, 983057, 536870926, 0, 983058, 536870926, 0, 983059, 536870926, 0, 983060, 536870926, 0, 983061, 22, 0, 983062, 536870933, 0, 983063, 536870926, 0, 983064, 536870926, 0, 983065, 536870926, 0, 983066, 536870926, 0, 983067, 536870926, 0, 983068, 536870924, 0 )
+
+[node name="PlayerTank" parent="." index="0"]
+position = Vector2( 415, 201 )
+
+[node name="Hole" parent="." index="2"]
+tile_data = PoolIntArray( 131096, 536870912, 0, 196632, 536870912, 0, 262168, 536870912, 0, 327704, 536870913, 0, 327705, 536870913, 0, 327706, 536870913, 0, 327707, 536870913, 0, 393240, 0, 0, 458776, 0, 0, 524312, 0, 0 )
+
+[node name="BlackTank" parent="." index="3" instance=ExtResource( 2 )]
+position = Vector2( 144, 203 )
+cannonRotSpeed = 1.5
+
+[node name="YellowTank" parent="." index="4" instance=ExtResource( 6 )]
+position = Vector2( 288, 126 )
+cannonRotSpeed = 1.5
+
+[node name="GreenTank" parent="." index="5" instance=ExtResource( 4 )]
+position = Vector2( 421, 57 )
+
+[node name="WhiteTank" parent="." index="6" instance=ExtResource( 5 )]
+position = Vector2( 293, 49 )
+cannonRotSpeed = 1.5
+
+[node name="GrayTank" parent="." index="7" instance=ExtResource( 8 )]
+position = Vector2( 187, 51 )
+cannonRotSpeed = 1.5
+
+[node name="BrownTank" parent="." index="8" instance=ExtResource( 3 )]
+position = Vector2( 423, 120 )
+cannonRotSpeed = 1.5
+
+[node name="PurpleTank" parent="." index="9" instance=ExtResource( 9 )]
+position = Vector2( 189, 127 )
+cannonRotSpeed = 1.5
+
+[node name="RedTank" parent="." index="10" instance=ExtResource( 7 )]
+position = Vector2( 74, 90 )
+
+[node name="TealTank" parent="." index="11" instance=ExtResource( 10 )]
+position = Vector2( 82, 156 )
+cannonRotSpeed = 1.5
+
+[node name="Mine" parent="." index="12" instance=ExtResource( 11 )]
+position = Vector2( 49, 224 )

@@ -6,9 +6,10 @@
 [ext_resource path="res://Colisiones/HitboxHorizontal.tres" type="Shape2D" id=5]
 
 [node name="BlackTank" instance=ExtResource( 1 )]
-speed = 60
+speed = 55
 rotation_speed = 10.0
 maxBullets = 2
+cannonRotSpeed = 3.5
 bulletsPerSecond = 1.0
 
 [node name="CollisionShape2D" parent="." index="0"]
@@ -23,6 +24,3 @@ scale = Vector2( 1, 1 )
 
 [node name="CannonSprite" parent="Cannon" index="0"]
 texture = ExtResource( 2 )
-
-[node name="CollisionShape2D" parent="Cannon" index="1"]
-z_index = 0

@@ -1,3 +1,4 @@
+# Modificaciones para Global.gd
 extends Node
 
 const MAX_INT = 9223372036854775807
@@ -9,6 +10,7 @@ var nivel_actual = 1
 var niveles_desbloqueados = []
 var bloquear_menu = false # Variable para bloquear el acceso al menú
 var in_menu = false # Variable para saber si estamos en el menú
+var animation_in_progress = false # Nueva variable para controlar si hay animaciones en curso
 
 func _ready():
 	pause_mode = Node.PAUSE_MODE_PROCESS
@@ -99,13 +101,16 @@ func _process(_delta):
 			print("Ya estamos en el menú, ignorando acción de menú")
 			return
 			
-		if not bloquear_menu: # Solo ir al menú si no está bloqueado
-			AudioManager.pauseBGMusic()
-			get_tree().paused = false
-			# Usar TransitionManager para ir al menú con transición
-			TransitionManager.go_to_menu()
-		else:
-			print("Menú bloqueado mientras suena la intro")
+		if bloquear_menu or animation_in_progress: 
+			# No permitir ir al menú si está bloqueado o hay animaciones en curso
+			print("Menú bloqueado: animación en curso o intro sonando")
+			return
+			
+		# Si no hay bloqueos, procedemos normalmente
+		AudioManager.pauseBGMusic()
+		get_tree().paused = false
+		# Usar TransitionManager para ir al menú con transición
+		TransitionManager.go_to_menu()
 
 func _notification(what):
 	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
@@ -126,3 +131,12 @@ func set_menu_blocked(blocked: bool):
 func set_in_menu(value: bool):
 	in_menu = value
 	print("En menú: ", in_menu)
+	
+# Nueva función para controlar el estado de las animaciones
+func set_animation_in_progress(in_progress: bool):
+	animation_in_progress = in_progress
+	print("Animación en curso: ", animation_in_progress)
+
+# Función para verificar si se puede acceder al menú
+func can_access_menu() -> bool:
+	return !bloquear_menu && !animation_in_progress && !in_menu

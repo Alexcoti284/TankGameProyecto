@@ -7,6 +7,8 @@ var currentLevelIndex = -1
 var currentLevel
 var transition_in_progress = false
 var level_to_load = -1  # Variable para almacenar el nivel que se debe cargar
+var level_counter_scene = preload("res://Escenas/Gui/LevelCounter.tscn")
+var level_counter_instance
 
 func _ready():
 	# Obtener niveles
@@ -23,6 +25,10 @@ func _ready():
 		var loadedLevel = load(levelString)
 		levels.append(loadedLevel)
 		level = levelsdir.get_next()
+	
+	# Instanciar y añadir contador de niveles
+	level_counter_instance = level_counter_scene.instance()
+	add_child(level_counter_instance)
 	
 	# Conectar con el TransitionManager
 	# warning-ignore:return_value_discarded
@@ -85,6 +91,10 @@ func nextLevel():
 		# Desbloquear el nivel en Global
 		Global.desbloquear_nivel(to_level)
 		
+		# Actualizar el contador de niveles
+		if level_counter_instance:
+			level_counter_instance.update_level_display()
+		
 		# Usar TransitionManager para la transición con números y animación completa
 		print("Transición al siguiente nivel: ", from_level, " -> ", to_level)
 		TransitionManager.change_level(from_level, to_level, true, true)
@@ -108,6 +118,10 @@ func restartLevel():
 	
 	# Para reiniciar nivel: mostrar números pero SIN animación de cambio
 	get_tree().paused = true
+	
+	# Actualizar el contador de niveles
+	if level_counter_instance:
+		level_counter_instance.update_level_display()
 	
 	# Reinicio del mismo nivel: usar false para animate_numbers para una transición más rápida
 	TransitionManager.change_level(Global.nivel_actual, Global.nivel_actual, true, false)
@@ -181,6 +195,10 @@ func _addCurrentLevel():
 	
 	# Desbloquear el nivel actual en Global
 	Global.desbloquear_nivel(Global.nivel_actual)
+	
+	# Actualizar el contador de niveles
+	if level_counter_instance:
+		level_counter_instance.update_level_display()
 
 # Función para manejar cuando la transición completa
 func _on_transition_completed():

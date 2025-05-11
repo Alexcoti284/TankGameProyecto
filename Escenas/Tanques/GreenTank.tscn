@@ -9,12 +9,11 @@
 [node name="GreenTank" instance=ExtResource( 1 )]
 script = ExtResource( 4 )
 Bullet = ExtResource( 5 )
+cannonRotSpeed = 1.5
+bulletsPerSecond = 1.5
 
 [node name="Body" parent="." index="1"]
 texture = ExtResource( 3 )
 
 [node name="CannonSprite" parent="Cannon" index="0"]
 texture = ExtResource( 2 )
-
-[node name="CollisionShape2D" parent="Cannon" index="1"]
-z_index = 0
