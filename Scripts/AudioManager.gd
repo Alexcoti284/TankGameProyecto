@@ -31,7 +31,10 @@ enum TRACKS {
 	MAIN,
 	REPLAY,
 	MENU,
+	LEVEL_START,
 }
+
+
 
 func _ready():
 	pause_mode = Node.PAUSE_MODE_PROCESS  # Asegurar que el audio siga incluso en pausa
@@ -134,6 +137,7 @@ func startBGMusic(track):
 			introPlaying = false
 			outroPlaying = false
 			print("Reproduciendo música de menú")
+		
 
 func _process(_delta):
 	# Play a queued sound if any players are available.

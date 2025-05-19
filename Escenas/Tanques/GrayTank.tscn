@@ -6,6 +6,7 @@
 [ext_resource path="res://Colisiones/HitboxHorizontal.tres" type="Shape2D" id=4]
 
 [node name="GrayTank" instance=ExtResource( 1 )]
+cannonRotSpeed = 1.5
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = ExtResource( 4 )

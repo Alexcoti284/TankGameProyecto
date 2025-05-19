@@ -8,6 +8,7 @@
 
 [node name="TealTank" instance=ExtResource( 1 )]
 Bullet = ExtResource( 2 )
+cannonRotSpeed = 1.5
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = ExtResource( 5 )
@@ -21,6 +22,3 @@ scale = Vector2( 1, 1 )
 
 [node name="CannonSprite" parent="Cannon" index="0"]
 texture = ExtResource( 4 )
-
-[node name="CollisionShape2D" parent="Cannon" index="1"]
-z_index = 0

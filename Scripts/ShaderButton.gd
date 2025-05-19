@@ -5,6 +5,9 @@ var shader_on_texture: Texture
 var shader_off_texture: Texture
 var hover_texture: Texture
 
+# Referencia al Label para cambiar el texto
+onready var filter_label = get_node("/root/LevelSelected/ONIOFF")
+
 func _ready():
 	# Guarda las texturas de referencia al inicio
 	shader_on_texture = preload("res://Sprites/Free-TDS-Game-UI-Pixel-Art/BTN_Exit.png") 
@@ -20,14 +23,17 @@ func _on_ShaderButton_pressed():
 	
 	# Actualiza el icono del botón
 	update_button_textures()
-
+	
+	# Actualiza el texto del label
+	if filter_label:
+		filter_label.text = "Filtro \n" + ("ON" if Global.shader_enabled else "OFF")
+	
 func update_button_textures():
 	# Actualiza el icono del botón según el estado del shader
 	if Global.shader_enabled:
 		# Cuando el shader está activado
 		texture_normal = shader_on_texture
 		texture_hover = shader_on_texture  # Sin efecto hover cuando está desactivado
-
 	else:
 		# Cuando el shader está desactivado
 		texture_normal = hover_texture

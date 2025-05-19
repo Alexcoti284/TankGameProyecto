@@ -9,6 +9,7 @@
 speed = 50
 maxBullets = 5
 maxMines = 1
+cannonRotSpeed = 1.5
 bulletsPerSecond = 2.0
 
 [node name="CollisionShape2D" parent="." index="0"]
