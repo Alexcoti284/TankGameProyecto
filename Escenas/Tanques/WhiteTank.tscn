@@ -8,6 +8,7 @@
 
 [node name="WhiteTank" groups=["invisible"] instance=ExtResource( 1 )]
 script = ExtResource( 4 )
+cannonRotSpeed = 1.5
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = ExtResource( 5 )

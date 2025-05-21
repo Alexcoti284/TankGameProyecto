@@ -1,4 +1,4 @@
-# Modificaciones para Global.gd
+# Global.gd corregido
 extends Node
 
 const MAX_INT = 9223372036854775807
@@ -14,19 +14,20 @@ var animation_in_progress = false # Nueva variable para controlar si hay animaci
 
 func _ready():
 	pause_mode = Node.PAUSE_MODE_PROCESS
+	# Inicializar con valores predeterminados
+	niveles_desbloqueados = [true] # Al menos el primer nivel está desbloqueado
+	
+	# Intentar cargar datos guardados
 	var loaded = cargar_datos()
 	if not loaded:
 		print("Creando nueva partida")
+		# Guardar los valores predeterminados iniciales
+		guardar_datos()
 	
-	# Asegurar que el primer nivel esté desbloqueado
-	if niveles_desbloqueados.size() == 0:
-		niveles_desbloqueados.append(true)
-	else:
-		niveles_desbloqueados[0] = true
-		
 	# Conectar con AudioManager para saber cuándo se puede acceder al menú
-	if not AudioManager.is_connected("intro_finished", self, "_on_intro_finished"):
-		AudioManager.connect("intro_finished", self, "_on_intro_finished")
+	if AudioManager.has_signal("intro_finished"):
+		if not AudioManager.is_connected("intro_finished", self, "_on_intro_finished"):
+			AudioManager.connect("intro_finished", self, "_on_intro_finished")
 	
 func _on_intro_finished():
 	bloquear_menu = false
@@ -54,10 +55,11 @@ func guardar_datos():
 	
 	var save_data = {
 		"niveles_desbloqueados": niveles_desbloqueados,
-		"shader_enabled": shader_enabled  # Guarda también el estado del shader
+		"shader_enabled": shader_enabled
 	}
 	
-	save_file.store_var(save_data)
+	# Usamos store_string con JSON para mayor compatibilidad
+	save_file.store_string(JSON.print(save_data))
 	save_file.close()
 	print("Datos guardados correctamente")
 	return true
@@ -73,16 +75,28 @@ func cargar_datos():
 		print("Error al cargar datos: ", error)
 		return false
 		
-	var save_data = save_file.get_var()
+	var content = save_file.get_as_text()
 	save_file.close()
 	
-	if save_data:
-		if save_data.has("niveles_desbloqueados"):
-			niveles_desbloqueados = save_data["niveles_desbloqueados"]
+	# Verificar si el contenido es válido
+	if content.empty():
+		print("Archivo de guardado vacío")
+		return false
+	
+	var parse_result = JSON.parse(content)
+	if parse_result.error != OK:
+		print("Error al analizar JSON: ", parse_result.error_string, " en línea ", parse_result.error_line)
+		# Crear un nuevo archivo de guardado si el actual está corrupto
+		borrar_guardado()
+		return false
 		
-		# Carga el estado del shader si existe
-		if save_data.has("shader_enabled"):
-			shader_enabled = save_data["shader_enabled"]
+	var save_data = parse_result.result
+	if typeof(save_data) == TYPE_DICTIONARY:
+		if save_data.has("niveles_desbloqueados") and typeof(save_data.niveles_desbloqueados) == TYPE_ARRAY:
+			niveles_desbloqueados = save_data.niveles_desbloqueados
+		
+		if save_data.has("shader_enabled") and typeof(save_data.shader_enabled) == TYPE_BOOL:
+			shader_enabled = save_data.shader_enabled
 			
 		print("Datos cargados correctamente: ", niveles_desbloqueados)
 		print("Estado del shader: ", shader_enabled)
@@ -91,8 +105,16 @@ func cargar_datos():
 		print("Formato de archivo incorrecto")
 		return false
 
+# Función para borrar el archivo de guardado corrupto
+func borrar_guardado():
+	var dir = Directory.new()
+	if dir.file_exists(SAVE_FILE):
+		dir.remove(SAVE_FILE)
+		print("Archivo de guardado corrupto eliminado")
+
 func _process(_delta):
 	if Input.is_action_just_pressed("quit"):
+		guardar_datos() # Guardar al salir
 		get_tree().quit()
 	
 	if Input.is_action_just_pressed("menu"):
@@ -120,7 +142,8 @@ func _notification(what):
 
 func toggle_shader():
 	shader_enabled = !shader_enabled
-	print("Shader toggled: ", shader_enabled)
+	guardar_datos() # Guardar inmediatamente al cambiar este ajuste
+	print("Shader state: ", "ON" if shader_enabled else "OFF")
 
 # Función para establecer el bloqueo del menú
 func set_menu_blocked(blocked: bool):
@@ -140,3 +163,20 @@ func set_animation_in_progress(in_progress: bool):
 # Función para verificar si se puede acceder al menú
 func can_access_menu() -> bool:
 	return !bloquear_menu && !animation_in_progress && !in_menu
+
+# Global.desbloquear_todos_niveles(45)
+#Solo se usa para desbloquear niveles (debug)
+
+func desbloquear_todos_niveles(hasta_nivel: int = 10):
+	# Asegurar que hay suficientes elementos en el array
+	while niveles_desbloqueados.size() < hasta_nivel:
+		niveles_desbloqueados.append(false)
+	
+	# Desbloquear todos los niveles hasta el nivel especificado
+	for i in range(hasta_nivel):
+		niveles_desbloqueados[i] = true
+	
+	# Guardar los cambios
+	guardar_datos()
+	print("Niveles desbloqueados hasta el nivel ", hasta_nivel)
+	print("Estado actual de niveles: ", niveles_desbloqueados)

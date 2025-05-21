@@ -1,3 +1,4 @@
+
 extends TileMap
 const Straw = preload("res://Escenas/Straw.tscn")
 
@@ -6,12 +7,15 @@ signal enemies_killed
 signal level_start
 signal level_end
 
+
 # Variables para control de transición
 var victory_in_progress = false
 var death_in_progress = false
+var start_text_label = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
 	print("Ejecutando _ready() en Level.gd")
 	
 	var scene_name = get_parent().name # Obtiene el nombre de la escena
