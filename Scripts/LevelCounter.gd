@@ -2,13 +2,17 @@ extends CanvasLayer
 
 onready var level_label = $Control/LevelLabel
 onready var enemies_label = $Control/EnemiesLabel
+onready var time_label = $Control/TimeLabel
+onready var deaths_label = $Control/DeathsLabel
 var initial_enemies_counted = false
 var enemy_count = 0
 
 func _ready():
-
 	# Actualizar solo el nivel al iniciar
 	update_level_display()
+	
+	# Actualizar estadísticas iniciales
+	update_stats_display()
 	
 	# Establecer un temporizador con un retraso inicial para contar los enemigos correctamente
 	var initial_delay = Timer.new()
@@ -23,12 +27,29 @@ func _process(_delta):
 	if level_label:
 		level_label.text = "LEVEL " + str(Global.nivel_actual)
 	
+	# Actualizar tiempo y muertes cada frame
+	update_stats_display()
+	
 	# El contador de enemigos se actualiza por el timer, no en cada frame
+
+func update_stats_display():
+	# Actualizar tiempo total de juego
+	if time_label:
+		var total_time = Global.get_total_time()
+		time_label.text = "TIME: " + Global.format_time(total_time)
+	
+	# Actualizar contador de muertes
+	if deaths_label:
+		deaths_label.text = "DEATHS: " + str(Global.total_deaths)
 
 func on_level_start():
 	# Reiniciar el contador cuando el nivel inicia
 	initial_enemies_counted = false
 	update_level_display()
+	update_stats_display()
+	
+	# Reiniciar el tiempo del nivel
+	Global.reset_level_time()
 	
 	# Vamos a esperar un poco para contar enemigos después del inicio del nivel
 	var delay = Timer.new()

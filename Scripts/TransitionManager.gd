@@ -74,6 +74,8 @@ func change_level(from_level: int, to_level: int, show_numbers: bool = true, ani
 	# Guardar el destino
 	if to_level == 0:
 		last_destination = "menu"
+	elif to_level == -1:
+		last_destination = "final_stats"
 	else:
 		last_destination = "level"
 	
@@ -107,6 +109,18 @@ func go_to_menu():
 		
 	change_level(Global.nivel_actual, 0, false, false)  # Sin números para el menú
 
+# Función mejorada para ir a las estadísticas finales
+func go_to_final_stats():
+	# Verificar si se permite la transición
+	if Global and !Global.can_access_menu():
+		print("No se puede ir a estadísticas ahora: hay animaciones en curso")
+		return
+	
+	print("Iniciando transición a estadísticas finales")
+	
+	# Usar -1 para indicar estadísticas finales, sin mostrar números
+	change_level(Global.nivel_actual, -1, false, false)
+	
 # Nueva función para indicar que el nivel está listo
 func notify_level_ready():
 	level_is_ready = true
@@ -156,6 +170,24 @@ func _on_transition_mid():
 		# Para el menú, marcamos que el nivel está listo inmediatamente
 		level_is_ready = true
 		emit_signal("level_loaded")
+	elif to_level == -1:
+		# Ir a las estadísticas finales
+		if AudioManager and AudioManager.introPlaying:
+			AudioManager.introPlaying = false
+		
+		var error = get_tree().change_scene("res://Escenas/Gui/FinalStats.tscn")
+		if error != OK:
+			print("Error al cambiar a escena FinalStats: ", error)
+		else:
+			print("Cambiando a escena FinalStats")
+			
+			# Asegurar que Global sepa que estamos en el menú (estadísticas)
+			if Global:
+				Global.set_in_menu(true)
+				
+		# Para las estadísticas, marcamos que están listas inmediatamente
+		level_is_ready = true
+		emit_signal("level_loaded")
 	else:
 		# Actualizar el nivel actual en Global
 		Global.nivel_actual = to_level
@@ -194,6 +226,18 @@ func _on_transition_completed():
 			AudioManager.end_level_transition()
 		
 		# Y que AudioManager reproduzca la música del menú
+		if AudioManager and AudioManager.current_track != AudioManager.TRACKS.MENU:
+			AudioManager.startBGMusic(AudioManager.TRACKS.MENU)
+	elif last_destination == "final_stats":
+		# Si vamos a las estadísticas finales, asegurarse de que no está pausado
+		get_tree().paused = false
+		print("Despausando juego en estadísticas finales")
+		
+		# Notificar a AudioManager que la transición terminó
+		if AudioManager:
+			AudioManager.end_level_transition()
+		
+		# Reproducir música del menú para las estadísticas
 		if AudioManager and AudioManager.current_track != AudioManager.TRACKS.MENU:
 			AudioManager.startBGMusic(AudioManager.TRACKS.MENU)
 	else:
@@ -237,3 +281,4 @@ func _on_transition_completed():
 # Función para verificar si el nivel está listo
 func is_level_ready():
 	return level_is_ready
+

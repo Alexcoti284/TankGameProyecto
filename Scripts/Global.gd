@@ -12,10 +12,20 @@ var bloquear_menu = false # Variable para bloquear el acceso al menú
 var in_menu = false # Variable para saber si estamos en el menú
 var animation_in_progress = false # Nueva variable para controlar si hay animaciones en curso
 
+# Nuevas variables para estadísticas
+var total_deaths = 0
+var total_time = 0.0  # Tiempo total en segundos
+var session_start_time = 0.0  # Tiempo de inicio de la sesión actual
+var level_start_time = 0.0  # Tiempo de inicio del nivel actual
+
 func _ready():
 	pause_mode = Node.PAUSE_MODE_PROCESS
 	# Inicializar con valores predeterminados
 	niveles_desbloqueados = [true] # Al menos el primer nivel está desbloqueado
+	
+	# Inicializar tiempo de sesión
+	session_start_time = OS.get_ticks_msec() / 1000.0
+	level_start_time = session_start_time
 	
 	# Intentar cargar datos guardados
 	var loaded = cargar_datos()
@@ -33,6 +43,31 @@ func _on_intro_finished():
 	bloquear_menu = false
 	print("Menú desbloqueado")
 
+# Nueva función para reiniciar el tiempo del nivel
+func reset_level_time():
+	level_start_time = OS.get_ticks_msec() / 1000.0
+
+# Nueva función para obtener el tiempo del nivel actual
+func get_current_level_time() -> float:
+	return (OS.get_ticks_msec() / 1000.0) - level_start_time
+
+# Nueva función para obtener el tiempo total de juego
+func get_total_time() -> float:
+	var current_session_time = (OS.get_ticks_msec() / 1000.0) - session_start_time
+	return total_time + current_session_time
+
+# Nueva función para incrementar muertes
+func increment_deaths():
+	total_deaths += 1
+	guardar_datos()  # Guardar inmediatamente cuando muere
+	print("Total de muertes: ", total_deaths)
+
+# Nueva función para formatear tiempo en MM:SS
+func format_time(time_seconds: float) -> String:
+	var minutes = int(time_seconds) / 60
+	var seconds = int(time_seconds) % 60
+	return "%02d:%02d" % [minutes, seconds]
+
 func desbloquear_nivel(nivel: int):
 	# Asegurar que el array tiene suficiente tamaño
 	while niveles_desbloqueados.size() < nivel:
@@ -47,6 +82,10 @@ func desbloquear_nivel(nivel: int):
 	print("Estado de niveles: ", niveles_desbloqueados)
 	
 func guardar_datos():
+	# Actualizar el tiempo total antes de guardar
+	var current_session_time = (OS.get_ticks_msec() / 1000.0) - session_start_time
+	var time_to_save = total_time + current_session_time
+	
 	var save_file = File.new()
 	var error = save_file.open(SAVE_FILE, File.WRITE)
 	if error != OK:
@@ -55,13 +94,17 @@ func guardar_datos():
 	
 	var save_data = {
 		"niveles_desbloqueados": niveles_desbloqueados,
-		"shader_enabled": shader_enabled
+		"shader_enabled": shader_enabled,
+		"total_deaths": total_deaths,
+		"total_time": time_to_save
 	}
 	
 	# Usamos store_string con JSON para mayor compatibilidad
 	save_file.store_string(JSON.print(save_data))
 	save_file.close()
 	print("Datos guardados correctamente")
+	print("Tiempo total guardado: ", format_time(time_to_save))
+	print("Muertes totales guardadas: ", total_deaths)
 	return true
 	
 func cargar_datos():
@@ -97,9 +140,22 @@ func cargar_datos():
 		
 		if save_data.has("shader_enabled") and typeof(save_data.shader_enabled) == TYPE_BOOL:
 			shader_enabled = save_data.shader_enabled
+		
+		# Cargar estadísticas nuevas
+		if save_data.has("total_deaths") and typeof(save_data.total_deaths) == TYPE_REAL:
+			total_deaths = int(save_data.total_deaths)
+		elif save_data.has("total_deaths") and typeof(save_data.total_deaths) == TYPE_INT:
+			total_deaths = save_data.total_deaths
+		
+		if save_data.has("total_time") and typeof(save_data.total_time) == TYPE_REAL:
+			total_time = save_data.total_time
+		elif save_data.has("total_time") and typeof(save_data.total_time) == TYPE_INT:
+			total_time = float(save_data.total_time)
 			
 		print("Datos cargados correctamente: ", niveles_desbloqueados)
 		print("Estado del shader: ", shader_enabled)
+		print("Muertes totales cargadas: ", total_deaths)
+		print("Tiempo total cargado: ", format_time(total_time))
 		return true
 	else:
 		print("Formato de archivo incorrecto")

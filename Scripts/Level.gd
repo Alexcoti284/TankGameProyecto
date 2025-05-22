@@ -1,4 +1,3 @@
-
 extends TileMap
 const Straw = preload("res://Escenas/Straw.tscn")
 
@@ -15,7 +14,7 @@ var start_text_label = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	
+	# Global.desbloquear_todos_niveles(45)
 	print("Ejecutando _ready() en Level.gd")
 	
 	var scene_name = get_parent().name # Obtiene el nombre de la escena
@@ -32,6 +31,9 @@ func _ready():
 		print("Nivel actual establecido: ", Global.nivel_actual)
 	else:
 		print("No se pudo extraer un número de nivel válido")
+	
+	# Reiniciar el tiempo del nivel cuando se carga
+	Global.reset_level_time()
 	
 	# Conectar con enemigos
 	var enemies = get_tree().get_nodes_in_group("enemy")
@@ -177,6 +179,9 @@ func _on_PlayerTank_player_dies():
 		
 	death_in_progress = true
 	deleteAllBullets()
+
+	# Incrementar contador de muertes en Global
+	Global.increment_deaths()
 
 	# Emitir señal de fin de nivel antes de cualquier música o transición
 	print("Emitiendo señal level_end (player_dies)")

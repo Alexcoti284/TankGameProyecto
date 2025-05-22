@@ -1,0 +1,119 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Scripts/FinalStats.gd" type="Script" id=1]
+[ext_resource path="res://Fonts/LilitaOne-Regular.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Sprites/Free-TDS-Game-UI-Pixel-Art/Levels Menu/2.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Free-TDS-Game-UI-Pixel-Art/Levels Menu/1.png" type="Texture" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 28
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 18
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 18
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 14
+font_data = ExtResource( 2 )
+
+[node name="FinalStats" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.8 )
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -26.0
+margin_bottom = -26.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 109.0
+margin_top = 58.0
+margin_right = 370.0
+margin_bottom = 213.0
+
+[node name="CongratulationsLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+margin_right = 261.0
+margin_bottom = 33.0
+custom_colors/font_color = Color( 1, 0.843137, 0, 1 )
+custom_colors/font_outline_modulate = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 1 )
+text = "¡CONGRATULATIONS!"
+align = 1
+valign = 1
+
+[node name="Spacer1" type="Control" parent="CenterContainer/VBoxContainer"]
+margin_top = 37.0
+margin_right = 261.0
+margin_bottom = 57.0
+rect_min_size = Vector2( 0, 20 )
+
+[node name="StatsContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer"]
+margin_top = 61.0
+margin_right = 261.0
+margin_bottom = 131.0
+
+[node name="DeathsLabel" type="Label" parent="CenterContainer/VBoxContainer/StatsContainer"]
+margin_right = 261.0
+margin_bottom = 21.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 2 )
+text = "Total Deaths: 0"
+align = 1
+valign = 1
+
+[node name="Spacer2" type="Control" parent="CenterContainer/VBoxContainer/StatsContainer"]
+margin_top = 25.0
+margin_right = 261.0
+margin_bottom = 45.0
+rect_min_size = Vector2( 0, 20 )
+
+[node name="TimeLabel" type="Label" parent="CenterContainer/VBoxContainer/StatsContainer"]
+margin_top = 49.0
+margin_right = 261.0
+margin_bottom = 70.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 3 )
+text = "Total Time: 00:00"
+align = 1
+valign = 1
+
+[node name="Spacer3" type="Control" parent="CenterContainer/VBoxContainer"]
+margin_top = 135.0
+margin_right = 261.0
+margin_bottom = 155.0
+rect_min_size = Vector2( 0, 20 )
+
+[node name="ContinueButton" type="TextureButton" parent="."]
+margin_left = 208.0
+margin_top = 201.0
+margin_right = 260.0
+margin_bottom = 253.0
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 4 )
+texture_hover = ExtResource( 4 )
+
+[node name="MenuLabel" type="Label" parent="ContinueButton"]
+margin_left = 5.0
+margin_top = 4.0
+margin_right = 49.0
+margin_bottom = 41.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 4 )
+text = "Main
+Menu"
+align = 1
+valign = 1
+
+[connection signal="pressed" from="ContinueButton" to="." method="_on_ContinueButton_pressed"]
