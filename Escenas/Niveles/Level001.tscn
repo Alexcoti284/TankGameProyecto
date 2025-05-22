@@ -11,4 +11,3 @@ position = Vector2( 82, 114 )
 
 [node name="BrownTank" parent="." index="3" instance=ExtResource( 2 )]
 position = Vector2( 410, 114 )
-cannonRotSpeed = 1.5

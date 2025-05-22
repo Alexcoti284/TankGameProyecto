@@ -59,12 +59,12 @@ OFF"
 [node name="Label" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -85.0
-margin_top = 23.0
-margin_right = 85.0
-margin_bottom = 61.0
+margin_left = -104.5
+margin_top = 25.0
+margin_right = 104.5
+margin_bottom = 38.0
 custom_fonts/font = SubResource( 7 )
-text = "TANK GAME"
+text = "CARPET TANKS"
 
 [node name="ClipControl" type="Control" parent="."]
 anchor_left = 0.5
