@@ -3,9 +3,11 @@ extends Node
 const MAX_INT = 9223372036854775807
 const SAVE_FILE = "user://game_save.dat"  
 
-# Añadir nuevas constantes para el control del joystick
-const JOYSTICK_MOUSE_SPEED = 10.0  # Velocidad del movimiento del ratón
-const JOYSTICK_DEADZONE = 0.2      # Zona muerta para evitar drift
+# Constantes mejoradas para el control del joystick en Linux/Raspberry Pi
+const JOYSTICK_MOUSE_SPEED_WINDOWS = 10.0  # Velocidad original para Windows
+const JOYSTICK_MOUSE_SPEED_LINUX = 2.0     # Velocidad reducida para Linux/Raspberry Pi
+const JOYSTICK_DEADZONE = 0.15             # Zona muerta ajustada
+const JOYSTICK_MAX_SPEED_MULTIPLIER = 60   # Multiplicador máximo de velocidad (reducido de 100)
 
 # Cambiar a botón X (el de la izquierda en Xbox controller)
 const JOY_BUTTON_X = JOY_BUTTON_2  # Botón X en Xbox (el de la izquierda)
@@ -14,6 +16,10 @@ const MOUSE_CLICK_DURATION = 0.1  # Duración del clic simulado en segundos
 
 var joystick_click_timer = 0.0
 var joystick_click_active = false
+
+# Variables para ajuste dinámico de velocidad
+var current_joystick_speed = JOYSTICK_MOUSE_SPEED_WINDOWS
+var is_linux_system = false
 
 var shader_enabled = true
 var p1Position: Vector2
@@ -34,8 +40,16 @@ var joystick_mouse_active = false
 var joystick_mouse_position = Vector2.ZERO
 var last_real_mouse_position = Vector2.ZERO  # Para recordar la última posición real del ratón
 
+# Variables para suavizado del movimiento en Linux
+var joystick_velocity = Vector2.ZERO
+var mouse_acceleration_factor = 1.0
+
 func _ready():
 	pause_mode = Node.PAUSE_MODE_PROCESS
+	
+	# Detectar el sistema operativo
+	detect_system()
+	
 	# Resto de inicialización (sin cambios)
 	niveles_desbloqueados = [true]
 	session_start_time = OS.get_ticks_msec() / 1000.0
@@ -54,6 +68,17 @@ func _ready():
 	var current_mouse_pos = get_viewport().get_mouse_position()
 	joystick_mouse_position = current_mouse_pos
 	last_real_mouse_position = current_mouse_pos
+
+func detect_system():
+	var os_name = OS.get_name()
+	is_linux_system = (os_name == "X11" or os_name == "Linux")
+	
+	if is_linux_system:
+		current_joystick_speed = JOYSTICK_MOUSE_SPEED_LINUX
+		print("Sistema Linux detectado - usando velocidad reducida del joystick: ", current_joystick_speed)
+	else:
+		current_joystick_speed = JOYSTICK_MOUSE_SPEED_WINDOWS
+		print("Sistema Windows detectado - usando velocidad estándar del joystick: ", current_joystick_speed)
 	
 func _on_intro_finished():
 	bloquear_menu = false
@@ -247,17 +272,39 @@ func handle_joystick_click(delta):
 			mouse_event.pressed = true
 			mouse_event.position = get_mouse_pos()
 			Input.parse_input_event(mouse_event)
-			
+
+func apply_joystick_curve(input_value: float) -> float:
+	# Aplicar una curva exponencial para mejor control en valores bajos
+	var abs_value = abs(input_value)
+	var sign_value = sign(input_value)
+	
+	# Curva cuadrática para movimientos más suaves
+	var curved_value = abs_value * abs_value * sign_value
+	
+	return curved_value
+
 func handle_joystick_mouse_control(delta):
 	# Obtener input del joystick derecho
 	var right_stick_x = Input.get_joy_axis(0, JOY_AXIS_2)  # Eje horizontal del joystick derecho
 	var right_stick_y = Input.get_joy_axis(0, JOY_AXIS_3)  # Eje vertical del joystick derecho
 	
-	# Aplicar zona muerta
+	# Aplicar zona muerta mejorada
 	if abs(right_stick_x) < JOYSTICK_DEADZONE:
 		right_stick_x = 0.0
+	else:
+		# Normalizar el valor después de aplicar la zona muerta
+		right_stick_x = (right_stick_x - sign(right_stick_x) * JOYSTICK_DEADZONE) / (1.0 - JOYSTICK_DEADZONE)
+	
 	if abs(right_stick_y) < JOYSTICK_DEADZONE:
 		right_stick_y = 0.0
+	else:
+		# Normalizar el valor después de aplicar la zona muerta
+		right_stick_y = (right_stick_y - sign(right_stick_y) * JOYSTICK_DEADZONE) / (1.0 - JOYSTICK_DEADZONE)
+	
+	# Aplicar curva de respuesta para mejor control
+	if is_linux_system:
+		right_stick_x = apply_joystick_curve(right_stick_x)
+		right_stick_y = apply_joystick_curve(right_stick_y)
 	
 	# Detectar movimiento del ratón físico
 	var current_real_mouse_pos = get_viewport().get_mouse_position()
@@ -275,30 +322,48 @@ func handle_joystick_mouse_control(delta):
 		
 		joystick_mouse_active = true
 		
-		# Mover la posición virtual del ratón
-		joystick_mouse_position.x += right_stick_x * JOYSTICK_MOUSE_SPEED * 100 * delta
-		joystick_mouse_position.y += right_stick_y * JOYSTICK_MOUSE_SPEED * 100 * delta
+		# Calcular el movimiento con velocidad ajustada según el sistema
+		var movement_multiplier = current_joystick_speed * JOYSTICK_MAX_SPEED_MULTIPLIER * delta
+		
+		# Para Linux, aplicar suavizado adicional
+		if is_linux_system:
+			# Usar aceleración gradual en lugar de movimiento instantáneo
+			var target_velocity = Vector2(right_stick_x, right_stick_y) * movement_multiplier
+			joystick_velocity = joystick_velocity.linear_interpolate(target_velocity, 0.3)
+			
+			joystick_mouse_position += joystick_velocity
+		else:
+			# Movimiento directo para Windows
+			joystick_mouse_position.x += right_stick_x * movement_multiplier
+			joystick_mouse_position.y += right_stick_y * movement_multiplier
 		
 		# Limitar la posición a los bordes de la pantalla
 		var viewport_size = get_viewport().size
 		joystick_mouse_position.x = clamp(joystick_mouse_position.x, 0, viewport_size.x)
 		joystick_mouse_position.y = clamp(joystick_mouse_position.y, 0, viewport_size.y)
 		
-		# Mover el ratón real a la posición virtual
-		Input.warp_mouse_position(joystick_mouse_position)
+		# Mover el ratón real a la posición virtual solo si es necesario
+		var distance_to_real = joystick_mouse_position.distance_to(current_real_mouse_pos)
+		if distance_to_real > 5.0:  # Solo mover si hay una diferencia significativa
+			Input.warp_mouse_position(joystick_mouse_position)
+		
 		last_real_mouse_position = joystick_mouse_position
 		
-	elif joystick_input_detected and not joystick_mouse_active:
-		# Si se presiona un botón del joystick pero no estaba en modo joystick, activarlo
-		joystick_mouse_active = true
-		joystick_mouse_position = current_real_mouse_pos
-		last_real_mouse_position = current_real_mouse_pos
+	else:
+		# Resetear la velocidad cuando no hay input del joystick
+		joystick_velocity = Vector2.ZERO
 		
-	elif mouse_moved_physically and not joystick_input_detected:
-		# Solo cambiar a modo ratón si no hay input del joystick Y el ratón se movió físicamente
-		joystick_mouse_active = false
-		joystick_mouse_position = current_real_mouse_pos
-		last_real_mouse_position = current_real_mouse_pos
+		if joystick_input_detected and not joystick_mouse_active:
+			# Si se presiona un botón del joystick pero no estaba en modo joystick, activarlo
+			joystick_mouse_active = true
+			joystick_mouse_position = current_real_mouse_pos
+			last_real_mouse_position = current_real_mouse_pos
+			
+		elif mouse_moved_physically and not joystick_input_detected:
+			# Solo cambiar a modo ratón si no hay input del joystick Y el ratón se movió físicamente
+			joystick_mouse_active = false
+			joystick_mouse_position = current_real_mouse_pos
+			last_real_mouse_position = current_real_mouse_pos
 
 # Función para verificar si el cursor está siendo controlado por joystick
 func is_joystick_mouse_active() -> bool:
@@ -307,6 +372,11 @@ func is_joystick_mouse_active() -> bool:
 # Función para obtener la posición del cursor controlado por joystick
 func get_joystick_mouse_position() -> Vector2:
 	return joystick_mouse_position
+
+# Función para ajustar manualmente la velocidad del joystick (útil para debug)
+func set_joystick_speed(new_speed: float):
+	current_joystick_speed = new_speed
+	print("Velocidad del joystick ajustada a: ", current_joystick_speed)
 	
 func _notification(what):
 	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
