@@ -1,43 +1,59 @@
-# Global.gd corregido
 extends Node
 
 const MAX_INT = 9223372036854775807
 const SAVE_FILE = "user://game_save.dat"  
 
+# Añadir nuevas constantes para el control del joystick
+const JOYSTICK_MOUSE_SPEED = 10.0  # Velocidad del movimiento del ratón
+const JOYSTICK_DEADZONE = 0.2      # Zona muerta para evitar drift
+
+# Cambiar a botón X (el de la izquierda en Xbox controller)
+const JOY_BUTTON_X = JOY_BUTTON_2  # Botón X en Xbox (el de la izquierda)
+const JOY_BUTTON_A = JOY_BUTTON_0  # Botón A sigue siendo el inferior
+const MOUSE_CLICK_DURATION = 0.1  # Duración del clic simulado en segundos
+
+var joystick_click_timer = 0.0
+var joystick_click_active = false
+
 var shader_enabled = true
 var p1Position: Vector2
 var nivel_actual = 1
 var niveles_desbloqueados = []
-var bloquear_menu = false # Variable para bloquear el acceso al menú
-var in_menu = false # Variable para saber si estamos en el menú
-var animation_in_progress = false # Nueva variable para controlar si hay animaciones en curso
+var bloquear_menu = false
+var in_menu = false
+var animation_in_progress = false
 
-# Nuevas variables para estadísticas
+# Variables para estadísticas (sin cambios)
 var total_deaths = 0
-var total_time = 0.0  # Tiempo total en segundos
-var session_start_time = 0.0  # Tiempo de inicio de la sesión actual
-var level_start_time = 0.0  # Tiempo de inicio del nivel actual
+var total_time = 0.0
+var session_start_time = 0.0
+var level_start_time = 0.0
+
+# Variables para el control del ratón con joystick
+var joystick_mouse_active = false
+var joystick_mouse_position = Vector2.ZERO
+var last_real_mouse_position = Vector2.ZERO  # Para recordar la última posición real del ratón
 
 func _ready():
 	pause_mode = Node.PAUSE_MODE_PROCESS
-	# Inicializar con valores predeterminados
-	niveles_desbloqueados = [true] # Al menos el primer nivel está desbloqueado
-	
-	# Inicializar tiempo de sesión
+	# Resto de inicialización (sin cambios)
+	niveles_desbloqueados = [true]
 	session_start_time = OS.get_ticks_msec() / 1000.0
 	level_start_time = session_start_time
 	
-	# Intentar cargar datos guardados
 	var loaded = cargar_datos()
 	if not loaded:
 		print("Creando nueva partida")
-		# Guardar los valores predeterminados iniciales
 		guardar_datos()
 	
-	# Conectar con AudioManager para saber cuándo se puede acceder al menú
 	if AudioManager.has_signal("intro_finished"):
 		if not AudioManager.is_connected("intro_finished", self, "_on_intro_finished"):
 			AudioManager.connect("intro_finished", self, "_on_intro_finished")
+	
+	# Inicializar posición del ratón virtual con la posición actual del ratón
+	var current_mouse_pos = get_viewport().get_mouse_position()
+	joystick_mouse_position = current_mouse_pos
+	last_real_mouse_position = current_mouse_pos
 	
 func _on_intro_finished():
 	bloquear_menu = false
@@ -168,28 +184,130 @@ func borrar_guardado():
 		dir.remove(SAVE_FILE)
 		print("Archivo de guardado corrupto eliminado")
 
-func _process(_delta):
+func _process(delta):
+	# Manejar la salida del juego (sin cambios)
 	if Input.is_action_just_pressed("quit"):
-		guardar_datos() # Guardar al salir
+		guardar_datos()
 		get_tree().quit()
 	
+	# Manejar el menú (sin cambios)
 	if Input.is_action_just_pressed("menu"):
 		if in_menu:
-			# Si ya estamos en el menú, no hacer nada
-			print("Ya estamos en el menú, ignorando acción de menú")
 			return
-			
 		if bloquear_menu or animation_in_progress: 
-			# No permitir ir al menú si está bloqueado o hay animaciones en curso
-			print("Menú bloqueado: animación en curso o intro sonando")
 			return
-			
-		# Si no hay bloqueos, procedemos normalmente
 		AudioManager.pauseBGMusic()
 		get_tree().paused = false
-		# Usar TransitionManager para ir al menú con transición
 		TransitionManager.go_to_menu()
+	
+	# Control del ratón con joystick derecho
+	handle_joystick_mouse_control(delta)
+	
+	# Manejar el clic con el botón X (izquierdo)
+	handle_joystick_click(delta)
+	
+	
+func get_mouse_pos() -> Vector2:
+	return joystick_mouse_position if joystick_mouse_active else (
+		get_tree().root.get_viewport().get_mouse_position() if get_tree() and get_tree().root 
+		else Vector2.ZERO
+	)
 
+func handle_joystick_click(delta):
+	# Detectar si se presionó el botón X (izquierdo)
+	if Input.is_joy_button_pressed(0, JOY_BUTTON_X) and not joystick_click_active:
+		# Simular clic del ratón
+		var mouse_event = InputEventMouseButton.new()
+		mouse_event.button_index = BUTTON_LEFT
+		mouse_event.pressed = true
+		mouse_event.position = get_mouse_pos()
+		Input.parse_input_event(mouse_event)
+		
+		joystick_click_active = true
+		joystick_click_timer = MOUSE_CLICK_DURATION
+	elif not Input.is_joy_button_pressed(0, JOY_BUTTON_X) and joystick_click_active:
+		# Liberar el clic del ratón
+		var mouse_event = InputEventMouseButton.new()
+		mouse_event.button_index = BUTTON_LEFT
+		mouse_event.pressed = false
+		mouse_event.position = get_mouse_pos()
+		Input.parse_input_event(mouse_event)
+		
+		joystick_click_active = false
+		joystick_click_timer = 0.0
+	
+	# Temporizador para clics mantenidos
+	if joystick_click_active:
+		joystick_click_timer -= delta
+		if joystick_click_timer <= 0:
+			# Mantener el clic "presionado" mientras se mantenga el botón
+			joystick_click_timer = MOUSE_CLICK_DURATION
+			var mouse_event = InputEventMouseButton.new()
+			mouse_event.button_index = BUTTON_LEFT
+			mouse_event.pressed = true
+			mouse_event.position = get_mouse_pos()
+			Input.parse_input_event(mouse_event)
+			
+func handle_joystick_mouse_control(delta):
+	# Obtener input del joystick derecho
+	var right_stick_x = Input.get_joy_axis(0, JOY_AXIS_2)  # Eje horizontal del joystick derecho
+	var right_stick_y = Input.get_joy_axis(0, JOY_AXIS_3)  # Eje vertical del joystick derecho
+	
+	# Aplicar zona muerta
+	if abs(right_stick_x) < JOYSTICK_DEADZONE:
+		right_stick_x = 0.0
+	if abs(right_stick_y) < JOYSTICK_DEADZONE:
+		right_stick_y = 0.0
+	
+	# Detectar movimiento del ratón físico
+	var current_real_mouse_pos = get_viewport().get_mouse_position()
+	var mouse_moved_physically = current_real_mouse_pos.distance_to(last_real_mouse_position) > 10.0
+	
+	# Detectar cualquier input del joystick (incluyendo botones)
+	var joystick_input_detected = (right_stick_x != 0.0 or right_stick_y != 0.0 or 
+		Input.is_joy_button_pressed(0, JOY_BUTTON_X))
+	
+	# Si hay input del joystick, activar el control del ratón virtual
+	if right_stick_x != 0.0 or right_stick_y != 0.0:
+		# Si no estaba activo el control por joystick, inicializar con la posición actual del ratón
+		if not joystick_mouse_active:
+			joystick_mouse_position = current_real_mouse_pos
+		
+		joystick_mouse_active = true
+		
+		# Mover la posición virtual del ratón
+		joystick_mouse_position.x += right_stick_x * JOYSTICK_MOUSE_SPEED * 100 * delta
+		joystick_mouse_position.y += right_stick_y * JOYSTICK_MOUSE_SPEED * 100 * delta
+		
+		# Limitar la posición a los bordes de la pantalla
+		var viewport_size = get_viewport().size
+		joystick_mouse_position.x = clamp(joystick_mouse_position.x, 0, viewport_size.x)
+		joystick_mouse_position.y = clamp(joystick_mouse_position.y, 0, viewport_size.y)
+		
+		# Mover el ratón real a la posición virtual
+		Input.warp_mouse_position(joystick_mouse_position)
+		last_real_mouse_position = joystick_mouse_position
+		
+	elif joystick_input_detected and not joystick_mouse_active:
+		# Si se presiona un botón del joystick pero no estaba en modo joystick, activarlo
+		joystick_mouse_active = true
+		joystick_mouse_position = current_real_mouse_pos
+		last_real_mouse_position = current_real_mouse_pos
+		
+	elif mouse_moved_physically and not joystick_input_detected:
+		# Solo cambiar a modo ratón si no hay input del joystick Y el ratón se movió físicamente
+		joystick_mouse_active = false
+		joystick_mouse_position = current_real_mouse_pos
+		last_real_mouse_position = current_real_mouse_pos
+
+# Función para verificar si el cursor está siendo controlado por joystick
+func is_joystick_mouse_active() -> bool:
+	return joystick_mouse_active
+
+# Función para obtener la posición del cursor controlado por joystick
+func get_joystick_mouse_position() -> Vector2:
+	return joystick_mouse_position
+	
 func _notification(what):
 	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
 		# Guardar antes de salir
